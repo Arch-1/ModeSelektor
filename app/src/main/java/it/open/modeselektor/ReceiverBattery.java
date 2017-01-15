@@ -3,6 +3,7 @@ package it.open.modeselektor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -11,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 
 public class ReceiverBattery extends BroadcastReceiver {
 
@@ -41,6 +41,7 @@ public class ReceiverBattery extends BroadcastReceiver {
             Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/" + Read);
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("value", "sh command error");
         }
     }
     public void Read(String Path){

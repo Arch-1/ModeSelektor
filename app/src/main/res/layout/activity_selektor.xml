@@ -11,16 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="it.open.modeselektor.Selektor">
 
-    <TextView
-        android:text="Developed by @lafonte"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:textSize="12sp"
-        android:layout_width="match_parent"
-        android:textAlignment="viewEnd"
-        android:textStyle="normal|italic" />
-
     <RadioGroup android:id="@+id/rdbgroup1"
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -141,8 +131,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/colorPrimary"
             android:textAlignment="center"
-            android:textStyle="normal|italic"
-            android:text="Restart the app the database is not present" />
+            android:textStyle="normal|italic" />
 
         <TextView
             android:layout_width="match_parent"
@@ -153,6 +142,16 @@
             android:textColor="@color/colorPrimary"
             android:textAlignment="center"
             android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="@string/info"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:textSize="10sp"
+            android:layout_width="match_parent"
+            android:textStyle="normal|italic"
+            android:textAlignment="viewStart" />
 
     </LinearLayout>
 

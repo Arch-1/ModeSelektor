@@ -1,4 +1,4 @@
-#!/sbin/sh
+#!/system/bin/sh
 #Ultra_performance
 #
 
@@ -71,7 +71,11 @@ chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Y" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled 
 
 #Set cpubw governor 
-echo "cpufreq" > /sys/class/devfreq/cpubw/governor
+if [ -d /sys/class/devfreq/cpubw/ ]; then
+  echo "cpufreq" > /sys/class/devfreq/cpubw/governor
+  else
+  echo "cpufreq" > /sys/class/devfreq/qcom,cpubw.49/governor
+fi
 
 #Set gpu
 echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor

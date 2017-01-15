@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.lang.String;
 
-
 public class Selektor extends AppCompatActivity {
 
     final static String Database_Path = "/sdcard/ModeSelektor/";
@@ -51,21 +50,16 @@ public class Selektor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selektor);
-
+        AskRootPermission();
         checkPermissionWrite();
         if (!checkPermissionWrite()){
             requestPermissionWrite();
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
         checkPermissionRead();
         if (!checkPermissionRead()){
         requestPermissionRead();
         }
-        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-
-        AskRootPermission();
-
         RadioButton Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
         RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
         RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
@@ -114,14 +108,8 @@ public class Selektor extends AppCompatActivity {
                 }else{
                     UltraBatteryAutoEnable.setText("Ultra Battery enabled the battery is under the selected level");
                 }
-            }else{
-                copyFileOrDir("");
-            Read(AutoUltraBatteryPercentage_Path);
-            SelectedPercentace.setText("Selected percentage: " + Read + "%");
-            int Percentage = Integer.parseInt(Read);
-            Battery_percentage.setProgress(Percentage);
             }
-        }
+            }
         }
     }
 
@@ -149,11 +137,11 @@ public class Selektor extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Apply on Boot Enabled", Toast.LENGTH_SHORT).show();
                 }else{
                     Write("N",ApplyOnBoot_Path);
-                    Toast.makeText(getApplicationContext(), "Apply on Boot Eisabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Apply on Boot Disabled", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+
         Auto_Ultra_Battery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -173,6 +161,7 @@ public class Selektor extends AppCompatActivity {
 
             }
         });
+
         Battery_percentage.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int percentage = 0;
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
@@ -191,8 +180,6 @@ public class Selektor extends AppCompatActivity {
                 return true;
         }
 
-    //ModeSelector
-
     public void onRadioButtonClicked(View view){
             if (Ultra_Battery.isChecked()) {
                 Apply_on_boot.setChecked(false);
@@ -203,6 +190,7 @@ public class Selektor extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Log.e("value", "sh command error");
                 }
 
             } else if (Battery.isChecked()) {
@@ -214,6 +202,7 @@ public class Selektor extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Log.e("value", "sh command error");
                 }
 
             } else if (Balanced.isChecked()) {
@@ -225,6 +214,7 @@ public class Selektor extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Log.e("value", "sh command error");
                 }
 
             } else if (Performance.isChecked()) {
@@ -236,6 +226,7 @@ public class Selektor extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Log.e("value", "sh command error");
                 }
 
             } else if (Ultra_Performance.isChecked()) {
@@ -247,12 +238,11 @@ public class Selektor extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Log.e("value", "sh command error");
             }
 
             }
     }
-
-    //Read the last active mode
 
     public void Read(String Path){
         try {
@@ -271,16 +261,13 @@ public class Selektor extends AppCompatActivity {
             }
         }
         catch (java.io.FileNotFoundException e) {
+            Log.e("value", "Read failed.");
         }
         catch (Throwable t) {
-            Toast
-                    .makeText(this, "Exception: "+t.toString(), Toast.LENGTH_LONG)
-                    .show();
+            Log.e("value", "Read failed.");
         }
 
     }
-
-    //Write
 
     public void Write(String Write, String Path) {
         try {
@@ -292,10 +279,9 @@ public class Selektor extends AppCompatActivity {
             myOutWriter.close();
             fOut.close();
         }catch (Exception e) {
+            Log.e("value", "Write failed.");
         }
     }
-
-    //Copy database
 
     private void copyFilesToSdCard() {
         copyFileOrDir("");
@@ -363,14 +349,13 @@ public class Selektor extends AppCompatActivity {
         }
     }
 
-    //Ask permission
-
-    private void AskRootPermission() {
+    public void AskRootPermission() {
         Process p;
         try {
             p = Runtime.getRuntime().exec("su");
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("value", "NO ROOT PERMISSION");
             Toast.makeText(getApplicationContext(), "Root permission denied, please allow Root permission", Toast.LENGTH_SHORT).show();
         }
     }
@@ -417,6 +402,7 @@ public class Selektor extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    copyFileOrDir("");
                     Log.e("value", "Permission Granted, Now you can use local drive .");
                 } else {
                     Log.e("value", "Permission Denied, You cannot use local drive .");

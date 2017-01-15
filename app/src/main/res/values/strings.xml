@@ -9,4 +9,5 @@
     <string name="auto_selektor">Auto Selektor</string>
     <string name="auto_enable_ultra_battery">Auto enable Ultra Battery</string>
     <string name="select_battery_percentage">Select battery percentage</string>
+    <string name="info">version 1.2.2 - developed by @lafonte - gnu general public licence version 3</string>
 </resources>

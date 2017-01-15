@@ -3,6 +3,7 @@ package it.open.modeselektor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,11 +20,8 @@ public class ReceiverOnBoot extends BroadcastReceiver {
     final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/AutoUltraBattery.txt";
     String Read;
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        //Controlla se Apply on boot è attivo se si lo esegue
 
         Read(ApplyOnBoot_Path);
         if (Read.equals("Y")){
@@ -32,10 +30,9 @@ public class ReceiverOnBoot extends BroadcastReceiver {
                 Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/" + Read);
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.e("value", "sh command error");
             }
         }
-
-        //Controlla se Auto Ultra Battery è attivo se si lo esegue
 
         Read(AutoUltraBattery_Path);
         if (Read.equals("Y")){
@@ -60,8 +57,10 @@ public class ReceiverOnBoot extends BroadcastReceiver {
             }
         }
         catch (java.io.FileNotFoundException e) {
+            Log.e("value", "Read error");
         }
         catch (Throwable t) {
+            Log.e("value", "Read error");
         }
     }
 }

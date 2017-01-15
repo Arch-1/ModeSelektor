@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
 
 public class ModeSelektorService extends Service {
 
@@ -51,6 +51,7 @@ public class ModeSelektorService extends Service {
             Toast.makeText(getApplicationContext(), "Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("value", "sh command error");
             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
         }
         Write("Y",UltraBatteryAutoEnabled_Path);
@@ -94,11 +95,10 @@ public class ModeSelektorService extends Service {
             }
         }
         catch (java.io.FileNotFoundException e) {
+            Log.e("value", "Read error");
         }
         catch (Throwable t) {
-            Toast
-                    .makeText(this, "Exception: "+t.toString(), Toast.LENGTH_LONG)
-                    .show();
+            Log.e("value", "Read error");
         }
     }
 
@@ -112,6 +112,7 @@ public class ModeSelektorService extends Service {
             myOutWriter.close();
             fOut.close();
         }catch (Exception e) {
+            Log.e("value", "Write error");
         }
     }
 }

@@ -1,4 +1,4 @@
-#!/sbin/sh
+#!/system/bin/sh
 #Ultra_Battery
 #
 
@@ -61,7 +61,11 @@ chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled 
 
 #Set cpubw governor 
-echo "bw_hwmon" > /sys/class/devfreq/cpubw/governor
+if [ -d /sys/class/devfreq/cpubw ]; then
+  echo "bw_hwmon" > /sys/class/devfreq/cpubw/governor
+  else
+  echo "bw_hwmon" > /sys/class/devfreq/qcom,cpubw.49/governor
+fi
 
 #Set gpu
 echo "powersave" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
