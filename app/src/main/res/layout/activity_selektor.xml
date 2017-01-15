@@ -11,6 +11,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="it.open.modeselektor.Selektor">
 
+    <TextView
+        android:text="@string/info"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:textSize="11sp"
+        android:layout_width="match_parent"
+        android:textStyle="normal|italic"
+        android:textAlignment="center" />
+
     <RadioGroup android:id="@+id/rdbgroup1"
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -142,16 +152,6 @@
             android:textColor="@color/colorPrimary"
             android:textAlignment="center"
             android:textStyle="normal|italic" />
-
-        <TextView
-            android:text="@string/info"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_alignParentBottom="true"
-            android:textSize="10sp"
-            android:layout_width="match_parent"
-            android:textStyle="normal|italic"
-            android:textAlignment="viewStart" />
 
     </LinearLayout>
 
