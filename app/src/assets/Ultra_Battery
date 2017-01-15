@@ -1,0 +1,70 @@
+#!/sbin/sh
+#Ultra_Battery
+#
+
+#Set governor
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo "userspace" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+
+#Set freq min freq
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+echo "400000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
+echo "0:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "1:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "2:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "3:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+echo "883200" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
+echo "4:883200" > /sys/mod400000ule/msm_performance/parameters/cpu_min_freq
+echo "5:883200" > /sys/module/msm_performance/parameters/cpu_min_freq
+
+#Set max freq
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo "1440000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "0:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "1:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "2:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+echo "883200" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "4:883200" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "5:883200" > /sys/module/msm_performance/parameters/cpu_max_freq
+
+#Set governor
+echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+echo "1017600" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
+echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
+echo "90" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
+echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
+echo "59000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
+echo "50000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
+
+#Set input_boost
+echo 0:0 1:0 2:0 3:0 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
+
+#Set touch_boost
+echo 0 > /sys/module/msm_performance/parameters/touchboost
+
+#Set sched_boost
+echo "0" > /proc/sys/kernel/sched_boost
+
+#Set lpm
+chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled 
+echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled 
+
+#Set cpubw governor 
+echo "bw_hwmon" > /sys/class/devfreq/cpubw/governor
+
+#Set gpu
+echo "powersave" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
+
+
+

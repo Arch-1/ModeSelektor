@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ModeSelektor</string>
+    <string name="rdb1">Ultra Battery</string>
+    <string name="rdb2">Battery</string>
+    <string name="rdb3">Balanced</string>
+    <string name="rdb4">Performance</string>
+    <string name="rdb5">Ultra Performance</string>
+    <string name="sw">Apply on Boot</string>
+    <string name="auto_selektor">Auto Selektor</string>
+    <string name="auto_enable_ultra_battery">Auto enable Ultra Battery</string>
+    <string name="select_battery_percentage">Select battery percentage</string>
+</resources>

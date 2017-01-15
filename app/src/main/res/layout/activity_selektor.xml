@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_selector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="it.open.modeselektor.Selektor">
+
+    <TextView
+        android:text="Developed by @lafonte"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:textAlignment="viewEnd"
+        android:textStyle="normal|italic" />
+
+    <RadioGroup android:id="@+id/rdbgroup1"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Selektor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            tools:textColor="@color/colorAccent"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textStyle="normal|bold" />
+
+        <RadioButton android:id="@+id/rdb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rdb1"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="onRadioButtonClicked" />
+        <RadioButton android:id="@+id/rdb2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/rdb2"
+            android:duplicateParentState="false"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="onRadioButtonClicked" />
+        <RadioButton android:id="@+id/rdb3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rdb3"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="onRadioButtonClicked" />
+        <RadioButton android:id="@+id/rdb4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rdb4"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="onRadioButtonClicked" />
+        <RadioButton android:id="@+id/rdb5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rdb5"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="onRadioButtonClicked" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rdbgroup1">
+
+        <Switch
+            android:text="@string/sw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sw"
+            android:textSize="16sp"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:text="@string/auto_selektor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            tools:textColor="@color/colorAccent"
+            android:layout_marginTop="15dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textStyle="normal|bold" />
+
+        <Switch
+            android:text="@string/auto_enable_ultra_battery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sw2"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text="@string/select_battery_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            tools:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="15dp"
+            android:enabled="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/batterysb"
+            android:max="100"
+            android:progress="1"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SelPer"
+            tools:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:textStyle="normal|italic"
+            android:text="Restart the app the database is not present" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Ubae"
+            tools:textColor="@color/colorPrimary"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:textStyle="normal|italic" />
+
+    </LinearLayout>
+
+</RelativeLayout>

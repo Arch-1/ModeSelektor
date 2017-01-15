@@ -1,0 +1,78 @@
+#!/sbin/sh
+#Performance
+#
+
+#Set governor
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo "interactive" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+
+#Set freq min freq
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+echo "691200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
+echo "0:691200" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "1:691200" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "2:691200" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "3:691200" > /sys/module/msm_performance/parameters/cpu_min_freq
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+echo "883200" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
+echo "4:883200" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "5:883200" > /sys/module/msm_performance/parameters/cpu_min_freq
+
+#Set governor
+echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+echo "1305600" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
+echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
+echo "80 1305600:90" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
+echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
+echo "19000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
+echo "20000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
+echo "19000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
+echo "85" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
+echo "1382400" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
+echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
+echo "40000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
+echo "65 1190400:85 1382400:90 1747200:90" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
+echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
+echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
+echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
+echo "20000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
+
+#Set max freq
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo "1440000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "0:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "1:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "2:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+echo "1804800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "4:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "5:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+
+#Set input_boost
+echo 0:1305600 1:0 2:0 3:0 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
+
+#Set touch_boost
+echo 0 > /sys/module/msm_performance/parameters/touchboost
+
+#Set sched_boost
+echo "1" > /proc/sys/kernel/sched_boost
+
+#Set lpm
+chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled 
+echo "Y" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled 
+
+#Set cpubw governor 
+echo "bw_hwmon" > /sys/class/devfreq/cpubw/governor
+
+#Set gpu
+echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
+
