@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/sources"
+        android:id="@+id/sources"
+        android:layout_width="match_parent"
+        android:onClick="onOptionsItemSelected"/>
+
+    <item android:title="@string/updates"
+        android:id="@+id/updates"
+        android:onClick="onOptionsItemSelected"/>
+
+    <item android:title="@string/license"
+        android:id="@+id/licence"
+        android:onClick="onOptionsItemSelected"/>
+
+    <item android:title="@string/reset_scripts"
+        android:id="@+id/reset"
+        android:onClick="onOptionsItemSelected"/>
+
+</menu>

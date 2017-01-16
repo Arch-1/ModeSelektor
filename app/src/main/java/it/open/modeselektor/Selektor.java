@@ -1,14 +1,18 @@
 package it.open.modeselektor;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.view.Menu;
@@ -117,6 +121,8 @@ public class Selektor extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_selektor, menu);
         Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
         Battery = (RadioButton) findViewById(R.id.rdb2);
         Balanced = (RadioButton) findViewById(R.id.rdb3);
@@ -137,7 +143,6 @@ public class Selektor extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Apply on Boot Enabled", Toast.LENGTH_SHORT).show();
                 }else{
                     Write("N",ApplyOnBoot_Path);
-                    Toast.makeText(getApplicationContext(), "Apply on Boot Disabled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -179,6 +184,35 @@ public class Selektor extends AppCompatActivity {
         });
                 return true;
         }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+
+        int id=item.getItemId();
+        switch (id) {
+            case R.id.sources:
+                Uri github = Uri.parse("https://github.com/lafonte0/ModeSelektor");
+                Intent a = new Intent(Intent.ACTION_VIEW, github);
+                startActivity(a);
+                return true;
+            case R.id.updates:
+                Uri sourceforge = Uri.parse("https://sourceforge.net/projects/modeselektor/files/?source=navbar");
+                Intent b = new Intent(Intent.ACTION_VIEW, sourceforge);
+                startActivity(b);
+                return true;
+            case R.id.licence:
+                Uri licence = Uri.parse("https://raw.githubusercontent.com/lafonte0/ModeSelektor/master/LICENSE");
+                Intent c = new Intent(Intent.ACTION_VIEW, licence);
+                startActivity(c);
+                return true;
+            case R.id.reset:
+                copyFileOrDir("");
+                Toast.makeText(getApplicationContext(), "Stock scripts restored", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public void onRadioButtonClicked(View view){
             if (Ultra_Battery.isChecked()) {
