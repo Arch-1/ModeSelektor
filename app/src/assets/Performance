@@ -1,6 +1,10 @@
 #!/system/bin/sh
+#ModeSelektor v2.0
+#Author Davide Di Battista
+#2017-2018
+#License GNU v3
+#Device Xiaomi Redmi Note 3
 #Performance
-#
 
 #Set governor
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -79,4 +83,3 @@ fi
 
 #Set gpu
 echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
-

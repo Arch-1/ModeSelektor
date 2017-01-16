@@ -1,3 +1,8 @@
+//ModeSelektor v2.0
+//Author Davide Di Battista
+//2017-2018
+//License GNU v3
+
 package it.open.modeselektor;
 
 import android.app.Service;
@@ -116,4 +121,3 @@ public class ModeSelektorService extends Service {
         }
     }
 }
-

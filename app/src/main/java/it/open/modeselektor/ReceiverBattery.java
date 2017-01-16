@@ -1,3 +1,8 @@
+//ModeSelektor v2.0
+//Author Davide Di Battista
+//2017-2018
+//License GNU v3
+
 package it.open.modeselektor;
 
 import android.content.BroadcastReceiver;
@@ -9,14 +14,17 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class ReceiverBattery extends BroadcastReceiver {
 
     final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/AutoUltraBattery.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
+    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
     String Read;
 
     @Override
@@ -29,6 +37,7 @@ public class ReceiverBattery extends BroadcastReceiver {
             Read(AutoUltraBattery_Path);
             if (Read.equals("Y")){
                 ApplyDefault();
+                Write("N",UltraBatteryAutoEnabled_Path);
         }
         } else if(action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 context.startService(new Intent(context, ModeSelektorService.class));
@@ -44,6 +53,7 @@ public class ReceiverBattery extends BroadcastReceiver {
             Log.e("value", "sh command error");
         }
     }
+
     public void Read(String Path){
         try {
             File file = new File(Path);
@@ -63,6 +73,20 @@ public class ReceiverBattery extends BroadcastReceiver {
         catch (java.io.FileNotFoundException e) {
         }
         catch (Throwable t) {
+        }
+    }
+
+    public void Write(String Write, String Path) {
+        try {
+            File file = new File(Path);
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter =
+                    new OutputStreamWriter(fOut);
+            myOutWriter.append(Write);
+            myOutWriter.close();
+            fOut.close();
+        }catch (Exception e) {
+            Log.e("value", "Write error");
         }
     }
 }

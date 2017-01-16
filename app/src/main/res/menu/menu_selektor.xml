@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="@string/sources"
         android:id="@+id/sources"
@@ -16,6 +17,10 @@
 
     <item android:title="@string/reset_scripts"
         android:id="@+id/reset"
+        android:onClick="onOptionsItemSelected"/>
+
+    <item android:title="@string/refresh"
+        android:id="@+id/refresh"
         android:onClick="onOptionsItemSelected"/>
 
 </menu>
