@@ -35,7 +35,7 @@ public class ReceiverOnBoot extends BroadcastReceiver {
         if (Read.equals("Y")){
             Read(DefaultMode_Path);
             try {
-                Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/" + Read);
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read + "> ~/sdcard/ModeSelektor/LastLog.log");
                 Write("N",UltraBatteryAutoEnabled_Path);
             } catch (IOException e) {
                 e.printStackTrace();

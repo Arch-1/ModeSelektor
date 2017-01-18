@@ -1,12 +1,7 @@
-//ModeSelektor v2.0
-//Author Davide Di Battista
-//2017-2018
-//License GNU v3
-
 package it.open.modeselektor;
 
 import android.Manifest;
-import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -14,9 +9,8 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,16 +38,16 @@ import java.lang.String;
 public class Selektor extends AppCompatActivity {
 
     final static String Database_Path = "/sdcard/ModeSelektor/";
+    final static String DatabaseVersion_Path = "/sdcard/ModeSelektor/DatabaseVersion.txt";
     final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/ApplyOnBoot.txt";
     final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/AutoUltraBattery.txt";
     final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/AutoUltraBatteryPercentage.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
     final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
-    final static String Log_Path = "/sdcard/ModeSelektor/Log.txt";
+    final static int Version = 1;
     private static final int PERMISSION_REQUEST_CODE = 1;
     String Percentage;
     String Read;
-    String ShellOut;
     Switch Apply_on_boot, Auto_Ultra_Battery;
     RadioButton Ultra_Battery, Battery, Balanced, Performance, Ultra_Performance;
     SeekBar Battery_percentage;
@@ -70,63 +64,88 @@ public class Selektor extends AppCompatActivity {
         }
         checkPermissionRead();
         if (!checkPermissionRead()){
-        requestPermissionRead();
+            requestPermissionRead();
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-        RadioButton Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
-        RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
-        RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
-        RadioButton Performance = (RadioButton) findViewById(R.id.rdb4);
-        RadioButton Ultra_Performance = (RadioButton) findViewById(R.id.rdb5);
-        Switch Apply_on_boot = (Switch) findViewById(R.id.sw);
-        Switch Auto_Ultra_Battery = (Switch) findViewById(R.id.sw2);
-        SeekBar Battery_percentage = (SeekBar) findViewById(R.id.batterysb);
-        TextView SelectedPercentace = (TextView) findViewById(R.id.SelPer);
-        TextView UltraBatteryAutoEnable = (TextView) findViewById(R.id.Ubae);
-        String[] Directory = {Database_Path};
-        for (String directory : Directory ) {
-            File file = new File(directory);
-            if(file.exists() && file.isDirectory()){
-                Read(DefaultMode_Path);
-                if (Read.equals("Ultra_Battery")){
-                    Ultra_Battery.setChecked(true);
-                } else if (Read.equals("Battery")){
-                    Battery.setChecked(true);
-                } else if (Read.equals("Balanced")){
-                    Balanced.setChecked(true);
-                } else if (Read.equals("Performance")){
-                    Performance.setChecked(true);
-                } else if (Read.equals("Ultra_Performance")){
-                    Ultra_Performance.setChecked(true);
+            UpdateDatabase();
+            RadioButton Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
+            RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
+            RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
+            RadioButton Performance = (RadioButton) findViewById(R.id.rdb4);
+            RadioButton Ultra_Performance = (RadioButton) findViewById(R.id.rdb5);
+            Switch Apply_on_boot = (Switch) findViewById(R.id.sw);
+            Switch Auto_Ultra_Battery = (Switch) findViewById(R.id.sw2);
+            SeekBar Battery_percentage = (SeekBar) findViewById(R.id.batterysb);
+            TextView SelectedPercentace = (TextView) findViewById(R.id.SelPer);
+            String[] Directory = {Database_Path};
+            for (String directory : Directory ) {
+                File file = new File(directory);
+                if(file.exists() && file.isDirectory()){
+                    Read(DefaultMode_Path);
+                    switch (Read) {
+                        case "Ultra_Battery":
+                            Ultra_Battery.setChecked(true);
+                            break;
+                        case "Battery":
+                            Battery.setChecked(true);
+                            break;
+                        case "Balanced":
+                            Balanced.setChecked(true);
+                            break;
+                        case "Performance":
+                            Performance.setChecked(true);
+                            break;
+                        case "Ultra_Performance":
+                            Ultra_Performance.setChecked(true);
+                            break;
+                    }
+                    Read(ApplyOnBoot_Path);
+                    if (Read.equals("Y")){
+                        Apply_on_boot.setChecked(true);
+                    }else if (Read.equals("N")){
+                        Apply_on_boot.setChecked(false);
+                    }
+                    Read(AutoUltraBattery_Path);
+                    if (Read.equals("Y")){
+                        Auto_Ultra_Battery.setChecked(true);
+                    }else if (Read.equals("N")){
+                        Auto_Ultra_Battery.setChecked(false);
+                    }
+                    Read(AutoUltraBatteryPercentage_Path);
+                    SelectedPercentace.setText("Selected percentage: " + Read + "%");
+                    int Percentage = Integer.parseInt(Read);
+                    Battery_percentage.setProgress(Percentage);
+                    UltraBatteryAllert();
                 }
-                Read(ApplyOnBoot_Path);
-                if (Read.equals("Y")){
-                    Apply_on_boot.setChecked(true);
-                }else if (Read.equals("N")){
-                    Apply_on_boot.setChecked(false);
-                }
-                Read(AutoUltraBattery_Path);
-                if (Read.equals("Y")){
-                    Auto_Ultra_Battery.setChecked(true);
-                }else if (Read.equals("N")){
-                    Auto_Ultra_Battery.setChecked(false);
-                }
-                Read(AutoUltraBatteryPercentage_Path);
-                SelectedPercentace.setText("Selected percentage: " + Read + "%");
-                int Percentage = Integer.parseInt(Read);
-                Battery_percentage.setProgress(Percentage);
-                Read(UltraBatteryAutoEnabled_Path);
-                if (Read.equals("N")){
-                    UltraBatteryAutoEnable.setText("");
-                }else{
-                    UltraBatteryAutoEnable.setText("Ultra Battery enabled, the battery is under the selected level");
-                }
-            }
             }
         }
     }
 
-        @Override
+    public void UpdateDatabase(){
+        File file = new File(DatabaseVersion_Path);
+        if(file.exists()){
+            Read(DatabaseVersion_Path);
+            int v = Integer.parseInt(Read);
+            int cmp = v > Version ? +1 : v < Version ? -1 : 0;
+            if (cmp == -1) {
+                copyFileOrDir("");
+            }
+        } else {
+            copyFileOrDir("");
+        }
+    }
+
+    public void UltraBatteryAllert(){
+        TextView UltraBatteryAutoEnable = (TextView) findViewById(R.id.Ubae);
+        Read(UltraBatteryAutoEnabled_Path);
+        if (Read.equals("N")){
+            UltraBatteryAutoEnable.setText("");
+        }else{
+            UltraBatteryAutoEnable.setText("Ultra Battery enabled the battery is under the selected level");
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_selektor, menu);
@@ -170,7 +189,6 @@ public class Selektor extends AppCompatActivity {
                     Intent intent = new Intent(Selektor.this, ModeSelektorService.class);
                     stopService(intent);
                 }
-
             }
         });
 
@@ -189,8 +207,8 @@ public class Selektor extends AppCompatActivity {
                 Write(Percentage, AutoUltraBatteryPercentage_Path);
             }
         });
-                return true;
-        }
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -207,18 +225,56 @@ public class Selektor extends AppCompatActivity {
                 Intent b = new Intent(Intent.ACTION_VIEW, sourceforge);
                 startActivity(b);
                 return true;
-            case R.id.reset:
-                copyFileOrDir("");
-                Toast.makeText(getApplicationContext(), "Stock scripts restored", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.licence:
                 Uri licence = Uri.parse("https://raw.githubusercontent.com/lafonte0/ModeSelektor/master/LICENSE");
                 Intent c = new Intent(Intent.ACTION_VIEW, licence);
                 startActivity(c);
                 return true;
-            case R.id.refresh:
-                finish();
-                startActivity(getIntent());
+            case R.id.reload:
+                Intent refresh = new Intent(this, Selektor.class);
+                startActivity(refresh);
+                this.finish();
+                return true;
+            case R.id.lastlog:
+                Intent lastlog = new Intent(this, LastLog.class);
+                startActivity(lastlog);
+                return true;
+            case R.id.reset:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Reset Scripts");
+                builder.setMessage("This action will overwrite all scripts in \n" +
+                        "/sdcard/ModeSelektor directory \n" +
+                        "do it only after a update or are if you have edited incorrectly the scripts.\n" +
+                        "Are you sure? ");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        copyFileOrDir("");
+                        Toast.makeText(getApplicationContext(), "Scripts are now restored", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            case R.id.about:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("About");
+                builder1.setMessage("ModeSelektor version v2.1 \n" +
+                        "Author Davide Di Battista 2017-2018 \n" +
+                        "GNU  General Public License version 3");
+                builder1.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert1 = builder1.create();
+                alert1.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -226,68 +282,75 @@ public class Selektor extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view){
-            if (Ultra_Battery.isChecked()) {
-                Apply_on_boot.setChecked(false);
-                Write("Ultra_Battery", DefaultMode_Path);
-                try {
-                    Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Ultra_Battery");
-                    Write("N",UltraBatteryAutoEnabled_Path);
-                    Toast.makeText(getApplicationContext(),"Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    Log.e("value", "sh command error");
-                }
-            } else if (Battery.isChecked()) {
-                Apply_on_boot.setChecked(false);
-                Write("Battery", DefaultMode_Path);
-                try {
-                    Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Battery");
-                    Write("N",UltraBatteryAutoEnabled_Path);
-                    Toast.makeText(getApplicationContext(),"Battery Mode Enabled", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    Log.e("value", "sh command error");
-                }
-
-            } else if (Balanced.isChecked()) {
-                Apply_on_boot.setChecked(false);
-                Write("Balanced",DefaultMode_Path);
-                try {
-                    Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Balanced");
-                    Write("N",UltraBatteryAutoEnabled_Path);
-                    Toast.makeText(getApplicationContext(), "Balanced Mode Enabled", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    Log.e("value", "sh command error");
-                }
-            } else if (Performance.isChecked()) {
-                Apply_on_boot.setChecked(false);
-                Write("Performance",DefaultMode_Path);
-                try {
-                    Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Performance");
-                    Write("N",UltraBatteryAutoEnabled_Path);
-                    Toast.makeText(getApplicationContext(), "Performance Mode Enabled", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    Log.e("value", "sh command error");
-                }
-            } else if (Ultra_Performance.isChecked()) {
-                Apply_on_boot.setChecked(false);
-                Write("Ultra_Performance",DefaultMode_Path);
-                try {
-                    Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Ultra_Performance");
-                    Write("N",UltraBatteryAutoEnabled_Path);
-                    Toast.makeText(getApplicationContext(), "Ultra Performance Mode Enabled", Toast.LENGTH_SHORT).show();
+        if (Ultra_Battery.isChecked()) {
+            Apply_on_boot.setChecked(false);
+            Write("Ultra_Battery",DefaultMode_Path);
+            UltraBatteryAllert();
+            try {
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery > ~/sdcard/ModeSelektor/LastLog.log");
+                Toast.makeText(getApplicationContext(), "Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    Log.e("value", "sh command error");
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.e("value", "sh command error");
             }
+            Write("N",UltraBatteryAutoEnabled_Path);
+            UltraBatteryAllert();
+        } else if (Battery.isChecked()) {
+            Apply_on_boot.setChecked(false);
+            Write("Battery",DefaultMode_Path);
+            UltraBatteryAllert();
+            try {
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Battery > ~/sdcard/ModeSelektor/LastLog.log");
+                Toast.makeText(getApplicationContext(),"Battery Mode Enabled", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.e("value", "sh command error");
             }
+            Write("N",UltraBatteryAutoEnabled_Path);
+            UltraBatteryAllert();
+        } else if (Balanced.isChecked()) {
+            Apply_on_boot.setChecked(false);
+            Write("Balanced",DefaultMode_Path);
+            UltraBatteryAllert();
+            try {
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Balanced > ~/sdcard/ModeSelektor/LastLog.log");
+                Toast.makeText(getApplicationContext(), "Balanced ModeEnabled", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.e("value", "sh command error");
+            }
+            Write("N",UltraBatteryAutoEnabled_Path);
+            UltraBatteryAllert();
+        } else if (Performance.isChecked()) {
+            Apply_on_boot.setChecked(false);
+            Write("Performance",DefaultMode_Path);
+            try {
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Performance > ~/sdcard/ModeSelektor/LastLog.log");
+                Toast.makeText(getApplicationContext(), "Performance Mode Enabled", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.e("value", "sh command error");
+            }
+            Write("N",UltraBatteryAutoEnabled_Path);
+            UltraBatteryAllert();
+        } else if (Ultra_Performance.isChecked()) {
+            Apply_on_boot.setChecked(false);
+            Write("Ultra_Performance",DefaultMode_Path);
+            try {
+                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Performance > ~/sdcard/ModeSelektor/LastLog.log");
+                Toast.makeText(getApplicationContext(), "Ultra Performance Mode Enabled", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.e("value", "sh command error");
+            }
+            Write("N",UltraBatteryAutoEnabled_Path);
+            UltraBatteryAllert();
+        }
     }
 
     public void Read(String Path){
@@ -312,6 +375,7 @@ public class Selektor extends AppCompatActivity {
         catch (Throwable t) {
             Log.e("value", "Read failed.");
         }
+
     }
 
     public void Write(String Write, String Path) {
@@ -425,7 +489,6 @@ public class Selektor extends AppCompatActivity {
     }
 
     private void requestPermissionWrite() {
-
         if (ActivityCompat.shouldShowRequestPermissionRationale(Selektor.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(Selektor.this, "Read External Storage permission denied, please allow read permission in settings", Toast.LENGTH_LONG).show();
         } else {

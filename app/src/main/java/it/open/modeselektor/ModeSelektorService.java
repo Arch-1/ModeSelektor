@@ -5,6 +5,7 @@
 
 package it.open.modeselektor;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -52,7 +53,7 @@ public class ModeSelektorService extends Service {
 
    public void Ultra_Battery() {
         try {
-            Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/Ultra_Battery");
+            Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery > ~/sdcard/ModeSelektor/LastLog.log");
             Toast.makeText(getApplicationContext(), "Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();

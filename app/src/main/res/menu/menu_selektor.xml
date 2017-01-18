@@ -2,6 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:title="@string/reset_scripts"
+        android:id="@+id/reset"
+        android:onClick="onOptionsItemSelected"/>
+
+    <item android:title="@string/last_log"
+        android:id="@+id/lastlog"
+        android:onClick="onOptionsItemSelected"/>
+
     <item android:title="@string/sources"
         android:id="@+id/sources"
         android:layout_width="match_parent"
@@ -15,12 +23,17 @@
         android:id="@+id/licence"
         android:onClick="onOptionsItemSelected"/>
 
-    <item android:title="@string/reset_scripts"
-        android:id="@+id/reset"
+    <item android:title="@string/about"
+        android:id="@+id/about"
         android:onClick="onOptionsItemSelected"/>
 
-    <item android:title="@string/refresh"
-        android:id="@+id/refresh"
-        android:onClick="onOptionsItemSelected"/>
-
+    <item android:id="@+id/reload"
+        android:icon="@drawable/ic_reload"
+        android:title="reload"
+        android:showAsAction="always"
+        android:visible="true"
+        android:enabled="true"
+        android:checkable="true"
+        app:showAsAction="always" />
 </menu>
+

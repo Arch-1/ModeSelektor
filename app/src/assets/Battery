@@ -6,13 +6,18 @@
 #Device Xiaomi Redmi Note 3
 #Battery
 
-#Set governor
+echo "Battery start"
+echo "Set cpu governor"
+
+#Set cpu governor
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
 echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 echo "interactive" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
 
-#Set freq min freq
+echo "Set min cpu freq"
+
+#Set min cpu freq
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 echo "400000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
@@ -26,7 +31,25 @@ chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
 echo "4:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "5:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 
-#Set governor
+echo "Set max cpu freq"
+
+#Set max cpu freq
+chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo "1440000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "0:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "1:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "2:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
+chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+echo "1804800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
+echo "4:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "5:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+
+echo "Set cpu governor parameters"
+
+#Set cpu governor parameters
 echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
 echo "1017600" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
@@ -47,32 +70,28 @@ echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
 echo "60000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
 echo "20000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
 
-#Set max freq
-chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-echo "1440000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
-echo "0:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "1:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "2:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-echo "1804800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
-echo "4:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "5:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "Set input boost"
 
 #Set input_boost
 echo 0:0 1:0 2:0 3:0 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
 
+echo "Set touch boost"
+
 #Set touch_boost
 echo 0 > /sys/module/msm_performance/parameters/touchboost
+
+echo "Set sched boost"
 
 #Set sched_boost
 echo "0" > /proc/sys/kernel/sched_boost
 
+echo "Set lmp"
+
 #Set lpm
 chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled 
-echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled 
+echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
+
+echo "Set cpubw governor"
 
 #Set cpubw governor 
 if [ -d /sys/class/devfreq/cpubw ]; then
@@ -81,5 +100,11 @@ if [ -d /sys/class/devfreq/cpubw ]; then
   echo "bw_hwmon" > /sys/class/devfreq/qcom,cpubw.49/governor
 fi
 
-#Set gpu
+echo "Set gpu governor"
+
+#Set gpu governor
 echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
+
+echo "Battery end"
+echo ""
+'date'

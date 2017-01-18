@@ -47,7 +47,7 @@ public class ReceiverBattery extends BroadcastReceiver {
     public void ApplyDefault(){
         Read(DefaultMode_Path);
         try {
-            Process a = Runtime.getRuntime().exec("su -c sh /sdcard/ModeSelektor/" + Read);
+            Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read + "> ~/sdcard/ModeSelektor/LastLog.log");
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("value", "sh command error");
