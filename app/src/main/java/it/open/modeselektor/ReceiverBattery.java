@@ -22,10 +22,10 @@ import java.io.OutputStreamWriter;
 
 public class ReceiverBattery extends BroadcastReceiver {
 
-    final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/AutoUltraBattery.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
     final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
     String Read;
+    private Context contest;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,11 +34,13 @@ public class ReceiverBattery extends BroadcastReceiver {
 
         if(action.equals(Intent.ACTION_POWER_CONNECTED)) {
             context.stopService(new Intent(context, ModeSelektorService.class));
-            Read(AutoUltraBattery_Path);
+            Read(UltraBatteryAutoEnabled_Path);
             if (Read.equals("Y")){
                 ApplyDefault();
                 Write("N",UltraBatteryAutoEnabled_Path);
-        }
+                Read(DefaultMode_Path);
+                Toast.makeText(context, Read + " Mode Enabled", Toast.LENGTH_SHORT).show();
+            }
         } else if(action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
                 context.startService(new Intent(context, ModeSelektorService.class));
         }
@@ -47,7 +49,7 @@ public class ReceiverBattery extends BroadcastReceiver {
     public void ApplyDefault(){
         Read(DefaultMode_Path);
         try {
-            Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read + "> ~/sdcard/ModeSelektor/LastLog.log");
+            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read);
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("value", "sh command error");

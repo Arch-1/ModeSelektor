@@ -53,8 +53,8 @@ public class ModeSelektorService extends Service {
 
    public void Ultra_Battery() {
         try {
-            Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery > ~/sdcard/ModeSelektor/LastLog.log");
-            Toast.makeText(getApplicationContext(), "Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
+            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery");
+            Toast.makeText(getApplicationContext(), "Ultra_Battery Mode Enabled", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("value", "sh command error");

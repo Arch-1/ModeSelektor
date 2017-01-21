@@ -44,10 +44,11 @@ public class Selektor extends AppCompatActivity {
     final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/AutoUltraBatteryPercentage.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
     final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
-    final static int Version = 1;
+    final static int Version = 2;
     private static final int PERMISSION_REQUEST_CODE = 1;
     String Percentage;
     String Read;
+    String Mode;
     Switch Apply_on_boot, Auto_Ultra_Battery;
     RadioButton Ultra_Battery, Battery, Balanced, Performance, Ultra_Performance;
     SeekBar Battery_percentage;
@@ -130,8 +131,6 @@ public class Selektor extends AppCompatActivity {
             if (cmp == -1) {
                 copyFileOrDir("");
             }
-        } else {
-            copyFileOrDir("");
         }
     }
 
@@ -265,7 +264,7 @@ public class Selektor extends AppCompatActivity {
             case R.id.about:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("About");
-                builder1.setMessage("ModeSelektor version v2.1 \n" +
+                builder1.setMessage("ModeSelektor version v2.2 \n" +
                         "Author Davide Di Battista 2017-2018 \n" +
                         "GNU  General Public License version 3");
                 builder1.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
@@ -283,74 +282,37 @@ public class Selektor extends AppCompatActivity {
 
     public void onRadioButtonClicked(View view){
         if (Ultra_Battery.isChecked()) {
-            Apply_on_boot.setChecked(false);
-            Write("Ultra_Battery",DefaultMode_Path);
-            UltraBatteryAllert();
-            try {
-                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery > ~/sdcard/ModeSelektor/LastLog.log");
-                Toast.makeText(getApplicationContext(), "Ultra Battery Mode Enabled", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("value", "sh command error");
-            }
-            Write("N",UltraBatteryAutoEnabled_Path);
-            UltraBatteryAllert();
+            Mode = "Ultra_Battery";
+            SetMode(Mode);
         } else if (Battery.isChecked()) {
-            Apply_on_boot.setChecked(false);
-            Write("Battery",DefaultMode_Path);
-            UltraBatteryAllert();
-            try {
-                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Battery > ~/sdcard/ModeSelektor/LastLog.log");
-                Toast.makeText(getApplicationContext(),"Battery Mode Enabled", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("value", "sh command error");
-            }
-            Write("N",UltraBatteryAutoEnabled_Path);
-            UltraBatteryAllert();
+            Mode = "Battery";
+            SetMode(Mode);
         } else if (Balanced.isChecked()) {
-            Apply_on_boot.setChecked(false);
-            Write("Balanced",DefaultMode_Path);
-            UltraBatteryAllert();
-            try {
-                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Balanced > ~/sdcard/ModeSelektor/LastLog.log");
-                Toast.makeText(getApplicationContext(), "Balanced ModeEnabled", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("value", "sh command error");
-            }
+            Mode = "Balanced";
+            SetMode(Mode);
             Write("N",UltraBatteryAutoEnabled_Path);
             UltraBatteryAllert();
         } else if (Performance.isChecked()) {
-            Apply_on_boot.setChecked(false);
-            Write("Performance",DefaultMode_Path);
-            try {
-                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Performance > ~/sdcard/ModeSelektor/LastLog.log");
-                Toast.makeText(getApplicationContext(), "Performance Mode Enabled", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("value", "sh command error");
-            }
-            Write("N",UltraBatteryAutoEnabled_Path);
-            UltraBatteryAllert();
+            Mode = "Performance";
+            SetMode(Mode);
         } else if (Ultra_Performance.isChecked()) {
-            Apply_on_boot.setChecked(false);
-            Write("Ultra_Performance",DefaultMode_Path);
-            try {
-                Process a = Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Performance > ~/sdcard/ModeSelektor/LastLog.log");
-                Toast.makeText(getApplicationContext(), "Ultra Performance Mode Enabled", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.e("value", "sh command error");
-            }
-            Write("N",UltraBatteryAutoEnabled_Path);
-            UltraBatteryAllert();
+            Mode = "Ultra_Performance";
+            SetMode(Mode);
         }
+    }
+
+    public void SetMode(String mode){
+        Write(Mode,DefaultMode_Path);
+        try {
+            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/"+mode);
+            Toast.makeText(getApplicationContext(), Mode+" Mode Enabled", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            Log.e("value", "sh command error");
+        }
+        Write("N",UltraBatteryAutoEnabled_Path);
+        UltraBatteryAllert();
     }
 
     public void Read(String Path){
