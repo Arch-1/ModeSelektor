@@ -22,31 +22,40 @@ import java.io.OutputStreamWriter;
 
 public class ReceiverOnBoot extends BroadcastReceiver {
 
-    final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/ApplyOnBoot.txt";
-    final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
-    final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/AutoUltraBattery.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
+    final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/Config/ApplyOnBoot.txt";
+    final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
+    final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/Config/AutoUltraBattery.txt";
+    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
+    final static String GU_Path = "/sdcard/ModeSelektor/Config/GoogleUpdates.txt";
     String Read;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Read(ApplyOnBoot_Path);
         if (Read.equals("Y")){
             Read(DefaultMode_Path);
             try {
-                Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read + "> ~/sdcard/ModeSelektor/LastLog.log");
+                Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/" + Read});
                 Write("N",UltraBatteryAutoEnabled_Path);
                 Toast.makeText(context, Read + " Mode Enabled", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("value", "sh command error");
             }
-        }
-
-        Read(AutoUltraBattery_Path);
-        if (Read.equals("Y")){
-            context.startService(new Intent(context, ModeSelektorService.class));
+            Read(GU_Path);
+            if (Read.equals("Y")){
+                try {
+                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Disable_Google_Updates"});
+                    Toast.makeText(context,  "Reduce Google Play Wakeloks Enabled", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("value", "sh command error");
+                    }
+            }
+            Read(AutoUltraBattery_Path);
+            if (Read.equals("Y")){
+                context.startService(new Intent(context, ModeSelektorService.class));
+            }
         }
     }
 

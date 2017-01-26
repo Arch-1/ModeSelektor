@@ -22,8 +22,8 @@ import java.io.OutputStreamWriter;
 
 public class ReceiverBattery extends BroadcastReceiver {
 
-    final static String DefaultMode_Path = "/sdcard/ModeSelektor/DefaultMode.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
+    final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
+    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
     String Read;
     private Context contest;
 
@@ -49,7 +49,7 @@ public class ReceiverBattery extends BroadcastReceiver {
     public void ApplyDefault(){
         Read(DefaultMode_Path);
         try {
-            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/" + Read);
+            Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/" + Read});
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("value", "sh command error");

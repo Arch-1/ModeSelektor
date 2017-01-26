@@ -27,8 +27,8 @@ import java.io.OutputStreamWriter;
 
 public class ModeSelektorService extends Service {
 
-    final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/AutoUltraBatteryPercentage.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/UltraBatteryAutoEnabled.txt";
+    final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/Config/AutoUltraBatteryPercentage.txt";
+    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
     String Read;
     int BatteryLevel;
     int SelectedBattery;
@@ -53,7 +53,7 @@ public class ModeSelektorService extends Service {
 
    public void Ultra_Battery() {
         try {
-            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Ultra_Battery");
+            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Sripts/Ultra_Battery");
             Toast.makeText(getApplicationContext(), "Ultra_Battery Mode Enabled", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();

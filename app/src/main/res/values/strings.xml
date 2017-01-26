@@ -17,4 +17,7 @@
     <string name="refresh">Refresh</string>
     <string name="about">About</string>
     <string name="last_log">Last log</string>
+    <string name="extra_selektor">extra selektor</string>
+    <string name="disable_google_updates">Disable google updates</string>
+    <string name="extra_selektora">EXTRA SELEKTOR</string>
 </resources>

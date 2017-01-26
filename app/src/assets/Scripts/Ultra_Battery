@@ -1,16 +1,14 @@
 #!/system/bin/sh
-#ModeSelektor v2.2
+#ModeSelektor v2.3
 #Author Davide Di Battista
 #2017-2018
 #License GNU v3
 #Device Xiaomi Redmi Note 3
-#Battery
+#Ultra Battery
 
 ModeSelektor( ) {
-
 echo "--------------------------------------------------------------"
-echo "||| BATTERY START |||"
-echo "--------------------------------------------------------------"
+echo "|  ULTRA BATTERY start  |"
 echo "--------------------------------------------------------------"
 echo "SET CPU GOVERNOR"
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -45,20 +43,20 @@ echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
 chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 echo "1804800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
-echo "4:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "5:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "4:400000" > /sys/module/msm_performance/parameters/cpu_max_freq
+echo "5:400000" > /sys/module/msm_performance/parameters/cpu_max_freq
 echo "Max cpu freq setted"
 echo ".............................................................."
 echo "SET CPU GOVERNOR PARAMETERS"
 echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
-echo "1017600" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+echo "691200" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-echo "80 1305600:90" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "80 1305600:95" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
 echo "59000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
-echo "20000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
+echo "50000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
 echo "19000 1382600:39000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
 echo "85" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
 echo "1190400" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
@@ -68,7 +66,7 @@ echo 85 1382600:90 1747200:80 > /sys/devices/system/cpu/cpu4/cpufreq/interactive
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
 echo "60000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
-echo "20000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
+echo "50000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
 echo "Cpu governor parameters setted"
 echo ".............................................................."
 echo "SET INPUT BOOST"
@@ -80,7 +78,7 @@ else
 fi
 echo ".............................................................."
 echo "SET TOUCH BOOST"
-if [ -d /sys/module/msm_performance/parameters ]; then
+if [ -f /sys/module/msm_performance/parameters/touchboost ]; then
     echo 0 > /sys/module/msm_performance/parameters/touchboost
     echo "touch boost setted"
 else
@@ -98,9 +96,9 @@ echo "Lpm setted"
 echo ".............................................................."
 echo "SET CPUBW GOVERNOR"
 if [ -d /sys/class/devfreq/cpubw ]; then
-  echo "bw_hwmon" > /sys/class/devfreq/cpubw/governor
+  echo "powersave" > /sys/class/devfreq/cpubw/governor
   else
-  echo "bw_hwmon" > /sys/class/devfreq/qcom,cpubw.49/governor
+  echo "powersave" > /sys/class/devfreq/qcom,cpubw.49/governor
 fi
 echo "Cpubw governor setted"
 echo ".............................................................."
@@ -108,15 +106,15 @@ echo "SET STOCK HOTPLUG"
 if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
     echo "2" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-    echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
-    echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+    echo "0" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+    echo "0" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
     echo "Hotplug setted"
 else
     echo "Is not possible set hotplug"
 fi
 echo ".............................................................."
 echo "SET GPU GOVERNOR"
-echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
+echo "powersave" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
 echo "Gpu governor setted"
 echo ".............................................................."
 echo "SET ADRENO IDLER"
@@ -152,7 +150,7 @@ echo "1" > /sys/block/zram0/reset
 echo "524288000" > /sys/block/zram0/disksize
 mkswap /dev/block/zram0 > /dev/null 2>&1
 swapon /dev/block/zram0 > /dev/null 2>&1
-echo "40" > /proc/sys/vm/swappiness
+echo "100" > /proc/sys/vm/swappiness
 echo "Zram setted"
 echo ".............................................................."
 echo "SET ENTROPY"
@@ -160,9 +158,7 @@ echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
 echo "Entropy setted"
 echo "--------------------------------------------------------------"
-echo "--------------------------------------------------------------"
-echo "||| BATTERY END |||"
-echo "--------------------------------------------------------------"
+echo "|  ULTRA BATTERY end  |"
 'date'
 echo "--------------------------------------------------------------"
 }
