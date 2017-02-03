@@ -23,7 +23,7 @@ import java.io.OutputStreamWriter;
 public class ReceiverBattery extends BroadcastReceiver {
 
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
+    final static String BatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/BatteryAutoEnabled.txt";
     String Read;
     private Context contest;
 
@@ -34,10 +34,10 @@ public class ReceiverBattery extends BroadcastReceiver {
 
         if(action.equals(Intent.ACTION_POWER_CONNECTED)) {
             context.stopService(new Intent(context, ModeSelektorService.class));
-            Read(UltraBatteryAutoEnabled_Path);
+            Read(BatteryAutoEnabled_Path);
             if (Read.equals("Y")){
                 ApplyDefault();
-                Write("N",UltraBatteryAutoEnabled_Path);
+                Write("N",BatteryAutoEnabled_Path);
                 Read(DefaultMode_Path);
                 Toast.makeText(context, Read + " Mode Enabled", Toast.LENGTH_SHORT).show();
             }

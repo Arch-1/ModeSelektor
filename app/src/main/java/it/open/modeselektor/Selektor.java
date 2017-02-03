@@ -41,18 +41,19 @@ public class Selektor extends AppCompatActivity {
     final static String DatabaseVersion_Path = "/sdcard/ModeSelektor/DatabaseVersion.txt";
     final static String Config_Path = "/sdcard/ModeSelektor/Config";
     final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/Config/ApplyOnBoot.txt";
-    final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/Config/AutoUltraBattery.txt";
-    final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/Config/AutoUltraBatteryPercentage.txt";
+    final static String AutoBattery_Path = "/sdcard/ModeSelektor/Config/AutoBattery.txt";
+    final static String AutoBatteryPercentage_Path = "/sdcard/ModeSelektor/Config/AutoBatteryPercentage.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
-    final static String GU_Path = "/sdcard/ModeSelektor/Config/GoogleUpdates.txt";
-    final static int Version = 3;
+    final static String BatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/BatteryAutoEnabled.txt";
+    final static String GPT_Path = "/sdcard/ModeSelektor/Config/GooglePlayTweaks.txt";
+    final static String BPT_Path = "/sdcard/ModeSelektor/Config/BuildPropTweaks.txt";
+    final static int Version = 4;
     private static final int PERMISSION_REQUEST_CODE = 1;
     String Percentage;
     String Read;
     String Script;
-    Switch GU, Apply_on_boot, Auto_Ultra_Battery;
-    RadioButton Ultra_Battery, Battery, Balanced, Performance, Ultra_Performance;
+    Switch GPT, BPT, Apply_on_boot, Auto_Battery;
+    RadioButton Battery, Balanced, Performance;
     SeekBar Battery_percentage;
     TextView SelectedPercentace;
 
@@ -78,14 +79,13 @@ public class Selektor extends AppCompatActivity {
                 if (cmp == -1) {
                     copyFileOrDir("");
                 } else {
-                    RadioButton Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
                     RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
                     RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
                     RadioButton Performance = (RadioButton) findViewById(R.id.rdb4);
-                    RadioButton Ultra_Performance = (RadioButton) findViewById(R.id.rdb5);
                     Switch Apply_on_boot = (Switch) findViewById(R.id.sw);
-                    Switch Auto_Ultra_Battery = (Switch) findViewById(R.id.sw2);
-                    Switch Google_Updates = (Switch) findViewById(R.id.sw3);
+                    Switch Auto_Battery = (Switch) findViewById(R.id.sw2);
+                    Switch Google_Play_Tweaks = (Switch) findViewById(R.id.sw3);
+                    Switch Build_Prop_Tweaks = (Switch) findViewById(R.id.sw4);
                     SeekBar Battery_percentage = (SeekBar) findViewById(R.id.batterysb);
                     TextView SelectedPercentace = (TextView) findViewById(R.id.SelPer);
                     String[] Directory = {Config_Path};
@@ -94,9 +94,6 @@ public class Selektor extends AppCompatActivity {
                         if(file3.exists() && file3.isDirectory()){
                             Read(DefaultMode_Path);
                         switch (Read) {
-                            case "Ultra_Battery":
-                                Ultra_Battery.setChecked(true);
-                            break;
                             case "Battery":
                                 Battery.setChecked(true);
                             break;
@@ -106,33 +103,36 @@ public class Selektor extends AppCompatActivity {
                             case "Performance":
                                 Performance.setChecked(true);
                             break;
-                            case "Ultra_Performance":
-                                Ultra_Performance.setChecked(true);
-                            break;
                         }
-                        Read(GU_Path);
+                        Read(GPT_Path);
                         if (Read.equals("Y")){
-                                Google_Updates.setChecked(true);
-                        }else if (Read.equals("N")){
-                                Google_Updates.setChecked(false);
+                                Google_Play_Tweaks.setChecked(true);
+                        }else {
+                                Google_Play_Tweaks.setChecked(false);
+                        }
+                        Read(BPT_Path);
+                        if (Read.equals("Y")){
+                            Build_Prop_Tweaks.setChecked(true);
+                        }else {
+                            Build_Prop_Tweaks.setChecked(false);
                         }
                         Read(ApplyOnBoot_Path);
                         if (Read.equals("Y")){
                             Apply_on_boot.setChecked(true);
-                        }else if (Read.equals("N")){
+                        }else {
                             Apply_on_boot.setChecked(false);
                         }
-                        Read(AutoUltraBattery_Path);
+                        Read(AutoBattery_Path);
                         if (Read.equals("Y")){
-                            Auto_Ultra_Battery.setChecked(true);
-                        }else if (Read.equals("N")){
-                            Auto_Ultra_Battery.setChecked(false);
+                            Auto_Battery.setChecked(true);
+                        }else {
+                            Auto_Battery.setChecked(false);
                         }
-                        Read(AutoUltraBatteryPercentage_Path);
+                        Read(AutoBatteryPercentage_Path);
                         SelectedPercentace.setText("Selected percentage: " + Read + "%");
                         int Percentage = Integer.parseInt(Read);
                         Battery_percentage.setProgress(Percentage);
-                        UltraBatteryAllert();
+                        BatteryAllert();
                         }
                     }
                 }
@@ -140,13 +140,13 @@ public class Selektor extends AppCompatActivity {
         }
     }
 
-    public void UltraBatteryAllert(){
+    public void BatteryAllert(){
         TextView UltraBatteryAutoEnable = (TextView) findViewById(R.id.Ubae);
-        Read(UltraBatteryAutoEnabled_Path);
+        Read(BatteryAutoEnabled_Path);
         if (Read.equals("N")){
             UltraBatteryAutoEnable.setText("");
         }else{
-            UltraBatteryAutoEnable.setText("Ultra Battery enabled the battery is under the selected level");
+            UltraBatteryAutoEnable.setText("Battery mode enabled, the battery is under the selected level");
         }
     }
 
@@ -154,34 +154,33 @@ public class Selektor extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_selektor, menu);
-        Ultra_Battery = (RadioButton) findViewById(R.id.rdb1);
         Battery = (RadioButton) findViewById(R.id.rdb2);
         Balanced = (RadioButton) findViewById(R.id.rdb3);
         Performance = (RadioButton) findViewById(R.id.rdb4);
-        Ultra_Performance = (RadioButton) findViewById(R.id.rdb5);
-        GU = (Switch) findViewById(R.id.sw3);
+        GPT = (Switch) findViewById(R.id.sw3);
+        BPT = (Switch) findViewById(R.id.sw4);
         Apply_on_boot = (Switch) findViewById(R.id.sw);
-        Auto_Ultra_Battery = (Switch) findViewById(R.id.sw2);
+        Auto_Battery = (Switch) findViewById(R.id.sw2);
         Battery_percentage = (SeekBar) findViewById(R.id.batterysb);
         SelectedPercentace = (TextView) findViewById(R.id.SelPer);
 
-        GU.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        GPT.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if(isChecked){
-                    Write("Y",GU_Path);
-                    Script = "Disable_Google_Updates";
+                    Write("Y",GPT_Path);
+                    Script = "Google_Play_Tweaks";
                     RunScript(Script);
-                    Toast.makeText(getApplicationContext(), "Reduce Google Play Wakeloks Enabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Google Play Tweaks Enabled", Toast.LENGTH_SHORT).show();
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(Selektor.this);
                     builder.setTitle("Restore Google Play Services");
                     builder.setMessage("This action need reboot");
                     builder.setPositiveButton("REBOOT NOW", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Write("N",GU_Path);
+                            Write("N",GPT_Path);
                             try {
                                 Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot"});
                             } catch (IOException e) {
@@ -194,7 +193,46 @@ public class Selektor extends AppCompatActivity {
                     builder.setNegativeButton("REBOOT LATER", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Write("N",GU_Path);
+                            Write("N",GPT_Path);
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+        });
+
+        BPT.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if(isChecked){
+                    Write("Y",BPT_Path);
+                    Script = "Build_Prop_Tweaks";
+                    RunScript(Script);
+                    Toast.makeText(getApplicationContext(), "Build.prop Tweaks Enabled", Toast.LENGTH_SHORT).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Selektor.this);
+                    builder.setTitle("Restore Build.prop");
+                    builder.setMessage("This action need reboot");
+                    builder.setPositiveButton("REBOOT NOW", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Write("N",BPT_Path);
+                            try {
+                                Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot"});
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Rebooting system", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setNegativeButton("REBOOT LATER", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Write("N",BPT_Path);
                             dialog.dismiss();
                         }
                     });
@@ -219,19 +257,19 @@ public class Selektor extends AppCompatActivity {
             }
         });
 
-        Auto_Ultra_Battery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Auto_Battery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if(isChecked){
-                    Write("Y",AutoUltraBattery_Path);
-                    Toast.makeText(getApplicationContext(), "Auto Ultra Battery Enabled", Toast.LENGTH_SHORT).show();
+                    Write("Y",AutoBattery_Path);
+                    Toast.makeText(getApplicationContext(), "Auto Battery Enabled", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Selektor.this, ModeSelektorService.class);
                     startService(intent);
                 }else{
-                    Write("N",AutoUltraBattery_Path);
-                    Toast.makeText(getApplicationContext(), "Auto Ultra Battery Disabled", Toast.LENGTH_SHORT).show();
+                    Write("N",AutoBattery_Path);
+                    Toast.makeText(getApplicationContext(), "Auto Battery Disabled", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Selektor.this, ModeSelektorService.class);
                     stopService(intent);
                 }
@@ -250,7 +288,7 @@ public class Selektor extends AppCompatActivity {
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Write(Percentage, AutoUltraBatteryPercentage_Path);
+                Write(Percentage, AutoBatteryPercentage_Path);
             }
         });
         return true;
@@ -311,7 +349,7 @@ public class Selektor extends AppCompatActivity {
             case R.id.about:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("About");
-                builder1.setMessage("ModeSelektor version v2.3 \n" +
+                builder1.setMessage("ModeSelektor version v2.4 \n" +
                         "Author Davide Di Battista 2017-2018 \n" +
                         "GNU  General Public License version 3");
                 builder1.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
@@ -328,12 +366,7 @@ public class Selektor extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view){
-        if (Ultra_Battery.isChecked()) {
-            Script = "Ultra_Battery";
-            RunScript(Script);
-            Write(Script,DefaultMode_Path);
-            Toast.makeText(getApplicationContext(), Script+" Mode Enabled", Toast.LENGTH_SHORT).show();
-        } else if (Battery.isChecked()) {
+        if (Battery.isChecked()) {
             Script = "Battery";
             RunScript(Script);
             Write(Script,DefaultMode_Path);
@@ -341,8 +374,8 @@ public class Selektor extends AppCompatActivity {
         } else if (Balanced.isChecked()) {
             Script = "Balanced";
             RunScript(Script);
-            Write("N",UltraBatteryAutoEnabled_Path);
-            UltraBatteryAllert();
+            Write("N",BatteryAutoEnabled_Path);
+            BatteryAllert();
             Write(Script,DefaultMode_Path);
             Toast.makeText(getApplicationContext(), Script+" Mode Enabled", Toast.LENGTH_SHORT).show();
         } else if (Performance.isChecked()) {
@@ -350,12 +383,9 @@ public class Selektor extends AppCompatActivity {
             RunScript(Script);
             Write(Script,DefaultMode_Path);
             Toast.makeText(getApplicationContext(), Script+" Mode Enabled", Toast.LENGTH_SHORT).show();
-        } else if (Ultra_Performance.isChecked()) {
-            Script = "Ultra_Performance";
-            RunScript(Script);
-            Write(Script,DefaultMode_Path);
-            Toast.makeText(getApplicationContext(), Script+" Mode Enabled", Toast.LENGTH_SHORT).show();
         }
+        Write("N",BatteryAutoEnabled_Path);
+        BatteryAllert();
     }
 
     public void RunScript(String script){
@@ -366,8 +396,6 @@ public class Selektor extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             Log.e("value", "sh command error");
         }
-        Write("N",UltraBatteryAutoEnabled_Path);
-        UltraBatteryAllert();
     }
 
     public void Read(String Path){
@@ -392,7 +420,6 @@ public class Selektor extends AppCompatActivity {
         catch (Throwable t) {
             Log.e("value", "Read failed.");
         }
-
     }
 
     public void Write(String Write, String Path) {

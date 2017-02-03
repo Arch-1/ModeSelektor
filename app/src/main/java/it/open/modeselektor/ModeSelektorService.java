@@ -27,8 +27,10 @@ import java.io.OutputStreamWriter;
 
 public class ModeSelektorService extends Service {
 
-    final static String AutoUltraBatteryPercentage_Path = "/sdcard/ModeSelektor/Config/AutoUltraBatteryPercentage.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
+    final static String AutoBatteryPercentage_Path = "/sdcard/ModeSelektor/Config/AutoBatteryPercentage.txt";
+    final static String BatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/BatteryAutoEnabled.txt";
+    final static String AutoBattery_Path = "/sdcard/ModeSelektor/Config/AutoBattery.txt";
+
     String Read;
     int BatteryLevel;
     int SelectedBattery;
@@ -38,29 +40,32 @@ public class ModeSelektorService extends Service {
         @Override
         public void onReceive(Context context, Intent batteryIntent) {
             BatteryLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            Read(AutoUltraBatteryPercentage_Path);
-            SelectedBattery = Integer.parseInt(Read);
-            int cmp = SelectedBattery > BatteryLevel ? +1 : SelectedBattery < BatteryLevel ? -1 : 0;
-            if (cmp == +1){
-                Ultra_Battery();
-            } else if (cmp == -1) {
-                Write("N",UltraBatteryAutoEnabled_Path);
-            }else {
-                Ultra_Battery();
+            Read(AutoBattery_Path);
+            if (Read.equals("Y")){
+                Read(AutoBatteryPercentage_Path);
+                SelectedBattery = Integer.parseInt(Read);
+                int cmp = SelectedBattery > BatteryLevel ? +1 : SelectedBattery < BatteryLevel ? -1 : 0;
+                if (cmp == +1){
+                    Battery();
+                } else if (cmp == -1) {
+                    Write("N",BatteryAutoEnabled_Path);
+                } else {
+                    Battery();
+                }
             }
         }
     };
 
-   public void Ultra_Battery() {
+   public void Battery() {
         try {
-            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Sripts/Ultra_Battery");
-            Toast.makeText(getApplicationContext(), "Ultra_Battery Mode Enabled", Toast.LENGTH_SHORT).show();
+            Runtime.getRuntime().exec("su -c sh ~/sdcard/ModeSelektor/Sripts/Battery");
+            Toast.makeText(getApplicationContext(), "Battery Mode Enabled", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("value", "sh command error");
             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
         }
-        Write("Y",UltraBatteryAutoEnabled_Path);
+        Write("Y",BatteryAutoEnabled_Path);
         stopSelf();
     }
 

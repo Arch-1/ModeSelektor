@@ -30,21 +30,6 @@
             android:textColor="@color/colorAccent"
             android:textStyle="normal|bold" />
 
-        <RadioButton android:id="@+id/rdb1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rdb1"
-            android:textSize="16sp"
-            android:paddingStart="10dp"
-            android:layout_marginTop="5dp"
-            android:onClick="onRadioButtonClicked"
-            android:layout_marginBottom="5dp" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
         <RadioButton android:id="@+id/rdb2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -86,26 +71,6 @@
             android:onClick="onRadioButtonClicked"
             android:layout_marginBottom="5dp" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-        <RadioButton android:id="@+id/rdb5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rdb5"
-            android:textSize="16sp"
-            android:paddingStart="10dp"
-            android:layout_marginTop="5dp"
-            android:onClick="onRadioButtonClicked"
-            android:layout_marginBottom="5dp" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
     </RadioGroup>
 
     <LinearLayout
@@ -127,13 +92,28 @@
             android:textStyle="normal|bold" />
 
         <Switch
-            android:text="Reduce Google Play wakeloks"
+            android:text="@string/google_play_tweaks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/sw3"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <Switch
+            android:text="Build.prop Tweaks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sw4"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
 
         <TextView
             android:text="@string/auto_selektor"
@@ -160,7 +140,7 @@
             android:background="@android:color/darker_gray"/>
 
         <Switch
-            android:text="@string/auto_enable_ultra_battery"
+            android:text="Auto enable Battery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/sw2"

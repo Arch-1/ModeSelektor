@@ -1,0 +1,47 @@
+#!/system/bin/sh
+#ModeSelektor v2.4
+#Author Davide Di Battista
+#2017-2018
+#License GNU v3
+#Device Xiaomi Redmi Note 3
+#Build.prop Tweaks
+
+setprop ENFORCE_PROCESS_LIMIT false
+setprop MAX_SERVICE_INACTIVITY false
+setprop MIN_HIDDEN_APPS false
+setprop MAX_HIDDEN_APPS false
+setprop CONTENT_APP_IDLE_OFFSET false
+setprop EMPTY_APP_IDLE_OFFSET false
+setprop MAX_ACTIVITIES false
+setprop ACTIVITY_INACTIVITY_RESET_TIME false
+setprop MAX_RECENT_TASKS false
+setprop MIN_RECENT_TASKS false
+setprop APP_SWITCH_DELAY_TIME false
+setprop MAX_PROCESSES false
+setprop PROC_START_TIMEOUT false
+setprop CPU_MIN_CHECK_DURATION false
+setprop GC_TIMEOUT false
+setprop SERVICE_TIMEOUT false
+setprop MIN_CRASH_INTERVAL false
+setprop pm.sleep_mode 1
+setprop persist.android.strictmode 0
+setprop persist.sys.purgeable_assets 1
+setprop persist.android.strictpersist.sys.purgeable_assets 1
+setprop profiler.force_disable_err_rpt 1
+setprop profiler.force_disable_ulog 1
+setprop dalvik.vm.checkjni false
+setprop dalvik.vm.execution-mode int:jit
+setprop wifi.supplicant_scan_interval 180
+setprop ro.ril.power_collapse 1
+setprop ro.ril.disable.power.collapse 0
+setprop ro.com.google.networklocation 0
+setprop ro.kernel.android.checkjni 0
+setprop ro.config.nocheckin 1
+setprop ro.vold.umsdirtyratio 20
+setprop ro.mot.eri.losalert.delay 1000
+setprop ro.lge.proximity.delay 25
+setprop mot.proximity.delay 25
+setprop com.qc.hardware 1
+setprop debug.qc.hardware true
+setprop debug.qctwa.preservebuf 1
+setprop debug.qctwa.statusbar 1

@@ -1,15 +1,22 @@
 #!/system/bin/sh
-#ModeSelektor v2.3
+#ModeSelektor v2.4
 #Author Davide Di Battista
 #2017-2018
 #License GNU v3
 #Device Xiaomi Redmi Note 3
 #Battery
 
+if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
+    echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus;
+    echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus;
+    echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus;
+    echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus;
+fi
+sleep 1
 ModeSelektor( ) {
-echo "--------------------------------------------------------------"
+echo "--------------------------------------------------------"
 echo "|  BATTERY start  |"
-echo "--------------------------------------------------------------"
+echo "--------------------------------------------------------"
 echo "SET CPU GOVERNOR"
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
@@ -32,37 +39,22 @@ echo "4:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "5:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "Min cpu freq setted"
 echo ".............................................................."
-echo "SET MAX CPU FREQ"
-chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-echo "1440000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
-echo "0:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "1:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "2:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "3:1440000" > /sys/module/msm_performance/parameters/cpu_max_freq
-chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-echo "1804800" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-chmod 666 /sys/module/msm_performance/parameters/cpu_max_freq
-echo "4:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "5:1804800" > /sys/module/msm_performance/parameters/cpu_max_freq
-echo "Max cpu freq setted"
-echo ".............................................................."
 echo "SET CPU GOVERNOR PARAMETERS"
-echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+echo "85" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
 echo "691200" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-echo "80 1305600:95" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "85 1305600:95" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
-echo "59000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
+echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
 echo "20000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
-echo "19000 1382600:39000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
-echo "85" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
+echo "19000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
+echo "90" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
 echo "1190400" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
-echo 85 1382600:90 1747200:80 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
+echo 90 1190400:85 1382400:95 1747200:85 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
 echo "60000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
@@ -71,7 +63,9 @@ echo "Cpu governor parameters setted"
 echo ".............................................................."
 echo "SET INPUT BOOST"
 if [ -d /sys/module/cpu_boost/parameters ]; then
-    echo 0:0 1:0 2:0 3:0 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
+    echo 0:691200 1:691200 2:691200 3:691200 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
+    echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
+    echo 1 > /sys/module/cpu_boost/parameters/input_boost_enabled
     echo "Input boost setted"
 else
     echo "Is not possible set the input boost"
@@ -106,8 +100,14 @@ echo "SET STOCK HOTPLUG"
 if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
     echo "2" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
+    echo "20 20 20 20" > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
+    echo "60 60 60 60" > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
+    echo "200" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
     echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
     echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+    echo "100" > /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms
+    echo "40 40" > /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres
+    echo "68 68" > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
     echo "Hotplug setted"
 else
     echo "Is not possible set hotplug"
@@ -117,49 +117,18 @@ echo "SET GPU GOVERNOR"
 echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
 echo "Gpu governor setted"
 echo ".............................................................."
-echo "SET ADRENO IDLER"
-if [ -d /sys/module/adreno_idler/parameters ]; then
-    echo "Y" > /sys/module/adreno_idler/parameters/adreno_idler_active
-    echo "Adreno idler setted"
-else
-    echo "Is not possible set adreno idler"
-fi
-echo ".............................................................."
-echo "SET ARCH POWER"
-if [ -f /sys/kernel/sched/arch_power ]; then
-    echo "1" > /sys/kernel/sched/arch_power
-    echo "Arch power setted"
-else
-    echo "Is not possible set arch power"
-fi
-echo ".............................................................."
-echo "SET SCHEDULER"
-SchedList=$( cat /sys/block/mmcblk0/queue/scheduler )
-zen="zen"
-if [ "${SchedList/$zen}" = "$SchedList" ] ; then
-    echo "Is not possible set the scheduler"
-else
-    echo "zen" > /sys/block/mmcblk0/queue/scheduler
-    echo "2048" > /sys/block/mmcblk0/queue/read_ahead_kb
-    echo "Scheduler setted"
-fi
-echo ".............................................................."
-echo "SET ZRAM"
-swapoff /dev/block/zram0 > /dev/null 2>&1
-echo "1" > /sys/block/zram0/reset
-echo "524288000" > /sys/block/zram0/disksize
-mkswap /dev/block/zram0 > /dev/null 2>&1
-swapon /dev/block/zram0 > /dev/null 2>&1
-echo "40" > /proc/sys/vm/swappiness
-echo "Zram setted"
+echo "SET GPU MAX FREQ"
+echo "480000000" > /sys/devices/soc.0/1c00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/max_gpuclk
+echo "Gpu max freq setted"
 echo ".............................................................."
 echo "SET ENTROPY"
 echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
 echo "Entropy setted"
-echo "--------------------------------------------------------------"
+echo "--------------------------------------------------------"
 echo "|  BATTERY end  |"
 'date'
-echo "--------------------------------------------------------------"
+echo "--------------------------------------------------------"
 }
-ModeSelektor 2>&1 | tee ~/sdcard/ModeSelektor/LastLog.log
+ModeSelektor 2>&1 | tee ~/sdcard/ModeSelektor/LastLog.log;
+exit

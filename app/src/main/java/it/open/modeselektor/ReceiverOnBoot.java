@@ -24,9 +24,10 @@ public class ReceiverOnBoot extends BroadcastReceiver {
 
     final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/Config/ApplyOnBoot.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
-    final static String AutoUltraBattery_Path = "/sdcard/ModeSelektor/Config/AutoUltraBattery.txt";
-    final static String UltraBatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/UltraBatteryAutoEnabled.txt";
-    final static String GU_Path = "/sdcard/ModeSelektor/Config/GoogleUpdates.txt";
+    final static String AutoBattery_Path = "/sdcard/ModeSelektor/Config/AutoBattery.txt";
+    final static String BatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/BatteryAutoEnabled.txt";
+    final static String GPT_Path = "/sdcard/ModeSelektor/Config/GooglePlayTweaks.txt";
+    final static String BPT_Path = "/sdcard/ModeSelektor/Config/BuildPropTweaks.txt";
     String Read;
 
     @Override
@@ -36,25 +37,37 @@ public class ReceiverOnBoot extends BroadcastReceiver {
             Read(DefaultMode_Path);
             try {
                 Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/" + Read});
-                Write("N",UltraBatteryAutoEnabled_Path);
+                Write("N",BatteryAutoEnabled_Path);
                 Toast.makeText(context, Read + " Mode Enabled", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("value", "sh command error");
             }
-            Read(GU_Path);
+            Read(GPT_Path);
             if (Read.equals("Y")){
                 try {
-                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Disable_Google_Updates"});
-                    Toast.makeText(context,  "Reduce Google Play Wakeloks Enabled", Toast.LENGTH_SHORT).show();
+                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Google_Play_Tweaks"});
+                    Toast.makeText(context,  "Google Play Tweaks Enabled", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("value", "sh command error");
                     }
             }
-            Read(AutoUltraBattery_Path);
+            Read(BPT_Path);
+            if (Read.equals("Y")){
+                try {
+                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Build_Prop_Tweaks"});
+                    Toast.makeText(context,  "Build.prop Tweaks Enabled", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("value", "sh command error");
+                }
+            }
+            Read(AutoBattery_Path);
             if (Read.equals("Y")){
                 context.startService(new Intent(context, ModeSelektorService.class));
+            } else {
+                context.stopService(new Intent(context, ModeSelektorService.class));
             }
         }
     }

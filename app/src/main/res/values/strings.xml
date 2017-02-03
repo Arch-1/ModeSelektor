@@ -20,4 +20,6 @@
     <string name="extra_selektor">extra selektor</string>
     <string name="disable_google_updates">Disable google updates</string>
     <string name="extra_selektora">EXTRA SELEKTOR</string>
+    <string name="build_prop_tweaks">Build.prop Tweaks</string>
+    <string name="google_play_tweaks">Google Play Tweaks</string>
 </resources>
