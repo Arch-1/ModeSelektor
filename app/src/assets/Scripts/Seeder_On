@@ -1,0 +1,24 @@
+#!/system/bin/sh
+#ModeSelektor v2.5
+#Author Davide Di Battista
+#Contributor Stefano 99
+#2017-2018
+#License GNU v3
+#Device Xiaomi Redmi Note 3
+#Thanks to Ryuinferno, lambgx02
+#Seeder On
+
+sleep 1
+rngd -t 2 -T 1 -s 256 --fill-watermark=80%
+sleep 2
+echo -8 > /proc/$(pgrep rngd)/oom_adj
+renice -n 5 'pidof rngd'
+echo 1000 > /proc/sys/vm/dirty_expire_centisecs
+B="Battery"
+if [ $DefaultMode == $B ]; then
+    echo "8" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "16" > /proc/sys/kernel/random/write_wakeup_threshold
+else
+    echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
+fi

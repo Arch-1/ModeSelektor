@@ -24,10 +24,9 @@ public class ReceiverOnBoot extends BroadcastReceiver {
 
     final static String ApplyOnBoot_Path = "/sdcard/ModeSelektor/Config/ApplyOnBoot.txt";
     final static String DefaultMode_Path = "/sdcard/ModeSelektor/Config/DefaultMode.txt";
-    final static String AutoBattery_Path = "/sdcard/ModeSelektor/Config/AutoBattery.txt";
-    final static String BatteryAutoEnabled_Path = "/sdcard/ModeSelektor/Config/BatteryAutoEnabled.txt";
     final static String GPT_Path = "/sdcard/ModeSelektor/Config/GooglePlayTweaks.txt";
     final static String BPT_Path = "/sdcard/ModeSelektor/Config/BuildPropTweaks.txt";
+    final static String Seeder_Path = "/sdcard/ModeSelektor/Config/Seeder.txt";
     String Read;
 
     @Override
@@ -37,7 +36,6 @@ public class ReceiverOnBoot extends BroadcastReceiver {
             Read(DefaultMode_Path);
             try {
                 Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/" + Read});
-                Write("N",BatteryAutoEnabled_Path);
                 Toast.makeText(context, Read + " Mode Enabled", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -63,12 +61,20 @@ public class ReceiverOnBoot extends BroadcastReceiver {
                     Log.e("value", "sh command error");
                 }
             }
-            Read(AutoBattery_Path);
+            Read(Seeder_Path);
             if (Read.equals("Y")){
-                context.startService(new Intent(context, ModeSelektorService.class));
-            } else {
-                context.stopService(new Intent(context, ModeSelektorService.class));
+                try {
+                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Seeder_On"});
+                    Toast.makeText(context,  "Seeder Enabled", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("value", "sh command error");
+                }
             }
+        } else {
+            Write("N",GPT_Path);
+            Write("N",BPT_Path);
+            Write("N",Seeder_Path);
         }
     }
 

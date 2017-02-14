@@ -1,0 +1,14 @@
+#!/system/bin/sh
+#ModeSelektor v2.5
+#Author Davide Di Battista
+#Contributor Stefano 99
+#2017-2018
+#License GNU v3
+#Device Xiaomi Redmi Note 3
+#Thanks to Ryuinferno, lambgx02
+#Seeder Uninstall
+
+pkill rngd
+mount -o rw,remount /system
+rm /system/xbin/rngd;
+mount -o ro,remount /system

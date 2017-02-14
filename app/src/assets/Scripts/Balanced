@@ -1,12 +1,17 @@
 #!/system/bin/sh
-#ModeSelektor v2.4
+#ModeSelektor v2.5
 #Author Davide Di Battista
+#Contributor Stefano 99
 #2017-2018
 #License GNU v3
 #Device Xiaomi Redmi Note 3
 #Balanced
 
 if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
+    chmod 644 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus;
+    chmod 644 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus;
+    chmod 644 /sys/devices/system/cpu/cpu4/core_ctl/min_cpus;
+    chmod 644 /sys/devices/system/cpu/cpu4/core_ctl/max_cpus;
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus;
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus;
     echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus;
@@ -49,6 +54,7 @@ echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
 echo "59000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
 echo "20000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate
+echo "80000" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack
 echo "19000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
 echo "85" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
 echo "1382400" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
@@ -59,6 +65,7 @@ echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
 echo "60000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
 echo "20000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
+echo "80000" >/sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack
 echo "Cpu governor parameters setted"
 echo ".............................................................."
 echo "SET INPUT BOOST"
@@ -84,7 +91,7 @@ echo "0" > /proc/sys/kernel/sched_boost
 echo "Sched boost setted"
 echo ".............................................................."
 echo "SET LPM"
-chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled 
+chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Lpm setted"
 echo ".............................................................."
@@ -117,13 +124,16 @@ echo "SET GPU GOVERNOR"
 echo "msm-adreno-tz" > /sys/class/kgsl/kgsl-3d0/devfreq/governor
 echo "Gpu governor setted"
 echo ".............................................................."
-echo "SET GPU MAX FREQ"
-echo "600000000" > /sys/devices/soc.0/1c00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/max_gpuclk
-echo "Gpu max freq setted"
-echo ".............................................................."
 echo "SET ENTROPY"
-echo "512" > /proc/sys/kernel/random/read_wakeup_threshold
-echo "256" > /proc/sys/kernel/random/write_wakeup_threshold
+Seeder=$(cat /sdcard/ModeSelektor/Config/Seeder.txt)
+On="Y"
+if [ $Seeder == $On ]; then
+    echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
+else
+    echo "512" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "256" > /proc/sys/kernel/random/write_wakeup_threshold
+fi
 echo "Entropy setted"
 echo "--------------------------------------------------------"
 echo "|  BALANCED end  |"

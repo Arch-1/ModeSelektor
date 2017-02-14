@@ -1,201 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_selector"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="it.open.modeselektor.Selektor">
-
-    <RadioGroup android:id="@+id/rdbgroup1"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:text="@string/selektor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            tools:textColor="@color/colorAccent"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textStyle="normal|bold" />
-
-        <RadioButton android:id="@+id/rdb2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/rdb2"
-            android:duplicateParentState="false"
-            android:textSize="16sp"
-            android:paddingStart="10dp"
-            android:layout_marginTop="5dp"
-            android:onClick="onRadioButtonClicked"
-            android:layout_marginBottom="5dp" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-        <RadioButton android:id="@+id/rdb3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rdb3"
-            android:textSize="16sp"
-            android:paddingStart="10dp"
-            android:layout_marginTop="5dp"
-            android:onClick="onRadioButtonClicked"
-            android:layout_marginBottom="5dp" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-        <RadioButton android:id="@+id/rdb4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rdb4"
-            android:textSize="16sp"
-            android:paddingStart="10dp"
-            android:layout_marginTop="5dp"
-            android:onClick="onRadioButtonClicked"
-            android:layout_marginBottom="5dp" />
-
-    </RadioGroup>
-
-    <LinearLayout
-        android:orientation="vertical"
+    android:background="@drawable/sfondoselektor">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_selector"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/rdbgroup1">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="it.open.modeselektor.Selektor">
 
-        <TextView
-            android:text="@string/extra_selektora"
+        <RadioGroup android:id="@+id/rdbgroup1"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView5"
-            tools:textColor="@color/colorAccent"
-            android:layout_marginTop="10dp"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textStyle="normal|bold" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
-        <Switch
-            android:text="@string/google_play_tweaks"
+            <TextView
+                android:text="@string/selektor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                tools:textColor="@color/colorAccent"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                android:textStyle="normal|bold" />
+
+            <RadioButton android:id="@+id/rdb2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/rdb2"
+                android:duplicateParentState="false"
+                android:textSize="16sp"
+                android:paddingStart="10dp"
+                android:layout_marginTop="5dp"
+                android:onClick="onRadioButtonClicked"
+                android:layout_marginBottom="5dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#787878"/>
+
+            <RadioButton android:id="@+id/rdb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rdb3"
+                android:textSize="16sp"
+                android:paddingStart="10dp"
+                android:layout_marginTop="5dp"
+                android:onClick="onRadioButtonClicked"
+                android:layout_marginBottom="5dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#787878"/>
+
+            <RadioButton android:id="@+id/rdb4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rdb4"
+                android:textSize="16sp"
+                android:paddingStart="10dp"
+                android:layout_marginTop="5dp"
+                android:onClick="onRadioButtonClicked"
+                android:layout_marginBottom="5dp" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sw3"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/rdbgroup1">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            <TextView
+                android:text="@string/extra_selektora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                tools:textColor="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                android:textStyle="normal|bold" />
 
-        <Switch
-            android:text="Build.prop Tweaks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sw4"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            <Switch
+                android:text="@string/google_play_tweaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw3"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#787878"/>
+
+            <Switch
+                android:text="Build.prop Tweaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw4"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#787878"/>
+
+            <Switch
+                android:text="Seeder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw5"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:text="Available Entropy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/AvEntropy"
+                android:layout_marginTop="0dp"
+                android:textColor="@android:color/white"
+                android:textAlignment="viewStart"
+                android:textColorLink="@color/colorAccent"
+                android:textSize="12sp" />
 
 
-        <TextView
-            android:text="@string/auto_selektor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            tools:textColor="@color/colorAccent"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textStyle="normal|bold" />
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EntroBar"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:max="4096" />
 
-        <Switch
-            android:text="@string/sw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sw"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Entro"
+                android:layout_marginTop="0dp"
+                android:textColor="@android:color/white"
+                android:textAlignment="textEnd"
+                android:textColorLink="@color/colorAccent"
+                android:textSize="12sp" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            <TextView
+                android:text="@string/auto_selektor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                tools:textColor="@color/colorAccent"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp" />
 
-        <Switch
-            android:text="Auto enable Battery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sw2"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            <Switch
+                android:text="@string/sw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sw"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-        <TextView
-            android:text="@string/select_battery_percentage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:layout_marginTop="10dp"
-            android:enabled="true"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginBottom="10dp" />
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/batterysb"
-            android:max="100"
-            android:progress="1"
-            android:layout_marginTop="5dp"
-            android:elevation="1dp"
-            android:color="@color/colorAccent"
-            android:thumbTint="@color/colorAccent"
-            android:layout_marginBottom="5dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/SelPer"
-            android:layout_marginTop="0dp"
-            android:textColor="@android:color/white"
-            android:textAlignment="center"
-            android:textStyle="normal|italic"
-            android:textColorLink="@android:color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Ubae"
-            android:layout_marginTop="0dp"
-            android:textColor="@color/colorAccent"
-            android:textAlignment="center"
-            android:textStyle="normal|italic"
-            android:textColorLink="@color/colorAccent" />
-
-    </LinearLayout>
-</RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

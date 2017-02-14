@@ -10,6 +10,11 @@
         android:id="@+id/lastlog"
         android:onClick="onOptionsItemSelected"/>
 
+    <item android:title="Uninstall Seeder"
+        android:id="@+id/SeederUni"
+        android:layout_width="match_parent"
+        android:onClick="onOptionsItemSelected"/>
+
     <item android:title="@string/sources"
         android:id="@+id/sources"
         android:layout_width="match_parent"
