@@ -63,13 +63,13 @@ public class ReceiverOnBoot extends BroadcastReceiver {
             }
             Read(Seeder_Path);
             if (Read.equals("Y")){
-                try {
-                    Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Seeder_On"});
-                    Toast.makeText(context,  "Seeder Enabled", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("value", "sh command error");
-                }
+                    try {
+                        Runtime.getRuntime().exec(new String[]{"su", "-c", "sh ~/sdcard/ModeSelektor/Scripts/Seeder_On"});
+                        Toast.makeText(context,  "Seeder Enabled", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("value", "sh command error");
+                    }
             }
         } else {
             Write("N",GPT_Path);

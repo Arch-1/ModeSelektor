@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5
+#ModeSelektor v2.5.1
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -19,9 +19,9 @@ if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
 fi
 sleep 1
 ModeSelektor( ) {
-echo "--------------------------------------------------------"
+echo "--------------------------------------------------------------"
 echo "|  BATTERY start  |"
-echo "--------------------------------------------------------"
+echo "--------------------------------------------------------------"
 echo "SET CPU GOVERNOR"
 chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
@@ -136,10 +136,10 @@ else
     echo "128" > /proc/sys/kernel/random/write_wakeup_threshold
 fi
 echo "Entropy setted"
-echo "--------------------------------------------------------"
+echo "--------------------------------------------------------------"
 echo "|  BATTERY end  |"
 'date'
-echo "--------------------------------------------------------"
+echo "--------------------------------------------------------------"
 }
 ModeSelektor 2>&1 | tee ~/sdcard/ModeSelektor/LastLog.log;
 exit

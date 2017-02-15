@@ -8,7 +8,6 @@ package it.open.modeselektor;
         import android.os.Handler;
         import android.support.v4.app.ActivityCompat;
         import android.support.v4.content.ContextCompat;
-        import android.support.v7.app.AppCompatActivity;
         import android.util.Log;
         import android.widget.Toast;
 
@@ -26,7 +25,7 @@ public class Permission extends Activity {
             public void run() {
                 AskPermission();
             }
-        }, 2000);
+        }, 1500);
     }
 
 

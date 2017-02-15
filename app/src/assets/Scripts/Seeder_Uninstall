@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5
+#ModeSelektor v2.5.1
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -12,3 +12,13 @@ pkill rngd
 mount -o rw,remount /system
 rm /system/xbin/rngd;
 mount -o ro,remount /system
+echo 200 > /proc/sys/vm/dirty_expire_centisecs
+DefaultMode=$(cat /sdcard/ModeSelektor/Config/DefaultMode.txt)
+B="Battery"
+if [ $DefaultMode == $B ]; then
+    echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "64" > /proc/sys/kernel/random/write_wakeup_threshold
+else
+    echo "512" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "256" > /proc/sys/kernel/random/write_wakeup_threshold
+fi

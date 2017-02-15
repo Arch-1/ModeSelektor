@@ -43,7 +43,7 @@ public class Selektor extends AppCompatActivity {
     final static String Seeder_Path = "/sdcard/ModeSelektor/Config/Seeder.txt";
     final static String Rngd_Path = "/system/xbin/rngd";
     final static String CurrentEntropy_Path = "/proc/sys/kernel/random/entropy_avail";
-    final static int Version = 5;
+    final static int Version = 6;
     private Handler EntroHandler;
     String Read, Script, CurrentEntropy;
     Switch GPT, BPT, Apply_on_boot, Seeder;
@@ -100,7 +100,13 @@ public class Selektor extends AppCompatActivity {
                         }
                         Read(Seeder_Path);
                         if (Read.equals("Y")){
-                            Seeder.setChecked(true);
+                            File file2 = new File(Rngd_Path);
+                            if(!file2.exists()){
+                                Seeder.setChecked(false);
+                                Write("N",Seeder_Path);
+                            } else {
+                                Seeder.setChecked(true);
+                            }
                         } else {
                             Seeder.setChecked(false);
                         }
@@ -232,7 +238,7 @@ public class Selektor extends AppCompatActivity {
                     Script = "Seeder_Off";
                     RunScript(Script);
                     Toast.makeText(getApplicationContext(), "Seeder Disabled", Toast.LENGTH_SHORT).show();
-                    Write("N",ApplyOnBoot_Path);
+                    Write("N",Seeder_Path);
                 }
             }
         });
@@ -341,7 +347,7 @@ public class Selektor extends AppCompatActivity {
             case R.id.about:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("About");
-                builder1.setMessage("ModeSelektor version v2.5 \n" +
+                builder1.setMessage("ModeSelektor version v2.5.1 \n" +
                         "Author Davide Di Battista 2017-2018 \n" +
                         "Contributor Stefano 99 \n" +
                         "GNU  General Public License version 3");
