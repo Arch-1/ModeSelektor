@@ -39,7 +39,7 @@ public class Permission extends Activity {
         if (!checkPermissionRead()){
             requestPermissionRead();
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             Intent selektor= new Intent(this, Selektor.class);
             startActivity(selektor);
             Permission.this.finish();

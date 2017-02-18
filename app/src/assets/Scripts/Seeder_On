@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5.1
+#ModeSelektor v2.5.2
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -14,6 +14,7 @@ sleep 2
 echo -8 > /proc/$(pgrep rngd)/oom_adj
 renice -n 5 'pidof rngd'
 echo 1000 > /proc/sys/vm/dirty_expire_centisecs
+DefaultMode=$(cat /sdcard/ModeSelektor/Config/DefaultMode.txt)
 B="Battery"
 if [ $DefaultMode == $B ]; then
     echo "8" > /proc/sys/kernel/random/read_wakeup_threshold

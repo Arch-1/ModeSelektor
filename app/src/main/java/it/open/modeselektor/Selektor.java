@@ -56,72 +56,72 @@ public class Selektor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selektor);
         File file = new File(DatabaseVersion_Path);
-        if(file.exists()){
+        if (!file.exists()){
+            copyFileOrDir("");
+        } else {
             Read(DatabaseVersion_Path);
             int v = Integer.parseInt(Read);
             int cmp = v > Version ? +1 : v < Version ? -1 : 0;
             if (cmp == -1) {
                 copyFileOrDir("");
-            } else {
-                RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
-                RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
-                RadioButton Performance = (RadioButton) findViewById(R.id.rdb4);
-                Switch Apply_on_boot = (Switch) findViewById(R.id.sw);
-                Switch Google_Play_Tweaks = (Switch) findViewById(R.id.sw3);
-                Switch Build_Prop_Tweaks = (Switch) findViewById(R.id.sw4);
-                Switch Seeder = (Switch) findViewById(R.id.sw5);
-                String[] Directory = {Config_Path};
-                for (String directory : Directory ) {
-                    File file3 = new File(directory);
-                    if(file3.exists() && file3.isDirectory()){
-                        Read(DefaultMode_Path);
-                        switch (Read) {
-                            case "Battery":
-                                Battery.setChecked(true);
-                                break;
-                            case "Balanced":
-                                Balanced.setChecked(true);
-                                break;
-                            case "Performance":
-                                Performance.setChecked(true);
-                                break;
-                            }
-                        Read(GPT_Path);
-                        if (Read.equals("Y")){
-                            Google_Play_Tweaks.setChecked(true);
-                        } else {
-                            Google_Play_Tweaks.setChecked(false);
-                        }
-                        Read(BPT_Path);
-                        if (Read.equals("Y")){
-                            Build_Prop_Tweaks.setChecked(true);
-                        } else {
-                            Build_Prop_Tweaks.setChecked(false);
-                        }
-                        Read(Seeder_Path);
-                        if (Read.equals("Y")){
-                            File file2 = new File(Rngd_Path);
-                            if(!file2.exists()){
-                                Seeder.setChecked(false);
-                                Write("N",Seeder_Path);
-                            } else {
-                                Seeder.setChecked(true);
-                            }
-                        } else {
-                            Seeder.setChecked(false);
-                        }
-                        Read(ApplyOnBoot_Path);
-                        if (Read.equals("Y")){
-                            Apply_on_boot.setChecked(true);
-                        } else {
-                            Apply_on_boot.setChecked(false);
-                        }
+            }
+        }
+        RadioButton Battery = (RadioButton) findViewById(R.id.rdb2);
+        RadioButton Balanced = (RadioButton) findViewById(R.id.rdb3);
+        RadioButton Performance = (RadioButton) findViewById(R.id.rdb4);
+        Switch Apply_on_boot = (Switch) findViewById(R.id.sw);
+        Switch Google_Play_Tweaks = (Switch) findViewById(R.id.sw3);
+        Switch Build_Prop_Tweaks = (Switch) findViewById(R.id.sw4);
+        Switch Seeder = (Switch) findViewById(R.id.sw5);
+        String[] Directory = {Config_Path};
+        for (String directory : Directory ) {
+            File file3 = new File(directory);
+            if(file3.exists() && file3.isDirectory()){
+                Read(DefaultMode_Path);
+                switch (Read) {
+                    case "Battery":
+                        Battery.setChecked(true);
+                        break;
+                    case "Balanced":
+                        Balanced.setChecked(true);
+                        break;
+                    case "Performance":
+                        Performance.setChecked(true);
+                        break;
+                }
+                Read(GPT_Path);
+                if (Read.equals("Y")){
+                    Google_Play_Tweaks.setChecked(true);
+                } else {
+                    Google_Play_Tweaks.setChecked(false);
+                }
+                Read(BPT_Path);
+                if (Read.equals("Y")){
+                    Build_Prop_Tweaks.setChecked(true);
+                } else {
+                    Build_Prop_Tweaks.setChecked(false);
+                }
+                Read(Seeder_Path);
+                if (Read.equals("Y")){
+                    File file2 = new File(Rngd_Path);
+                    if(!file2.exists()){
+                        Seeder.setChecked(false);
+                        Write("N",Seeder_Path);
+                    } else {
+                        Seeder.setChecked(true);
                     }
+                } else {
+                    Seeder.setChecked(false);
+                        }
+                Read(ApplyOnBoot_Path);
+                if (Read.equals("Y")){
+                    Apply_on_boot.setChecked(true);
+                } else {
+                    Apply_on_boot.setChecked(false);
                 }
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -347,7 +347,7 @@ public class Selektor extends AppCompatActivity {
             case R.id.about:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("About");
-                builder1.setMessage("ModeSelektor version v2.5.1 \n" +
+                builder1.setMessage("ModeSelektor version v2.5.2 \n" +
                         "Author Davide Di Battista 2017-2018 \n" +
                         "Contributor Stefano 99 \n" +
                         "GNU  General Public License version 3");
