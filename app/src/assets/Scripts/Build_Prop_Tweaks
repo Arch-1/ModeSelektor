@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5.2
+#ModeSelektor v2.5.3
 #Author Davide Di Battista
 #2017-2018
 #License GNU v3
@@ -45,3 +45,7 @@ setprop com.qc.hardware 1
 setprop debug.qc.hardware true
 setprop debug.qctwa.preservebuf 1
 setprop debug.qctwa.statusbar 1
+setprop power.saving.mode 1
+setprop power_supply.wakeup enable
+setprop ro.config.hw_fast_dormancy 1
+setprop ro.config.hw_power_saving 1

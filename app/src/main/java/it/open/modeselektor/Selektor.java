@@ -43,7 +43,7 @@ public class Selektor extends AppCompatActivity {
     final static String Seeder_Path = "/sdcard/ModeSelektor/Config/Seeder.txt";
     final static String Rngd_Path = "/system/xbin/rngd";
     final static String CurrentEntropy_Path = "/proc/sys/kernel/random/entropy_avail";
-    final static int Version = 6;
+    final static int Version = 8;
     private Handler EntroHandler;
     String Read, Script, CurrentEntropy;
     Switch GPT, BPT, Apply_on_boot, Seeder;

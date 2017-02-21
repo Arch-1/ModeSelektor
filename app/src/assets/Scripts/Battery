@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5.2
+#ModeSelektor v2.5.3
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -38,10 +38,10 @@ echo "1:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "2:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "3:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
 chmod 666 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-echo "400000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+echo "883200" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 chmod 666 /sys/module/msm_performance/parameters/cpu_min_freq
-echo "4:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
-echo "5:400000" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "4:883200" > /sys/module/msm_performance/parameters/cpu_min_freq
+echo "5:883200" > /sys/module/msm_performance/parameters/cpu_min_freq
 echo "Min cpu freq setted"
 echo ".............................................................."
 echo "SET CPU GOVERNOR PARAMETERS"
@@ -49,7 +49,7 @@ echo "85" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
 echo "691200" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-echo "85 691200:92 806400:90 1017600:94 1305600:98" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "85 691200:90 806400:86 1017600:88 1305600:98" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/max_freq_hysteresis
@@ -61,7 +61,7 @@ echo "90" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
 echo "1190400" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
-echo 90 1190400:80 1382400:96 1612800:98 1747200:80 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
+echo 90 1190400:70 1382400:94 1612800:98 1747200:80 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
 echo "60000" > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
@@ -93,7 +93,8 @@ echo "Sched boost setted"
 echo ".............................................................."
 echo "SET LPM"
 chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
-echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
+echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
+chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Lpm setted"
 echo ".............................................................."
 echo "SET CPUBW GOVERNOR"
@@ -106,12 +107,12 @@ echo "Cpubw governor setted"
 echo ".............................................................."
 echo "SET STOCK HOTPLUG"
 if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
-    echo "1" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+    echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
     echo "20 20 20 20" > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
     echo "25 25 25 25" > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
-    echo "800" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
-    echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+    echo "1600" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
+    echo "0" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
     echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
     echo "100" > /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms
     echo "40 40" > /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres

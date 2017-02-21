@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5.2
+#ModeSelektor v2.5.3
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -49,7 +49,7 @@ echo "80" >/sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
 echo "1305600" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
 echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
 echo "40000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time
-echo "80 1305600:90" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+echo "90" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
 echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif
 echo "59000" > /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay
@@ -70,7 +70,7 @@ echo "Cpu governor parameters setted"
 echo ".............................................................."
 echo "SET INPUT BOOST"
 if [ -d /sys/module/cpu_boost/parameters ]; then
-    echo 0:1017600 1:1017600 2:1017600 3:1017600 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
+    echo 0:1190400 1:1190400 2:1190400 3:1190400 4:0 5:0 > /sys/module/cpu_boost/parameters/input_boost_freq
     echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
     echo 1 > /sys/module/cpu_boost/parameters/input_boost_enabled
     echo "Input boost setted"
@@ -92,7 +92,8 @@ echo "Sched boost setted"
 echo ".............................................................."
 echo "SET LPM"
 chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
-echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
+echo "N" > /sys/module/lpm_levels/parameters/sleep_disabled
+chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Lpm setted"
 echo ".............................................................."
 echo "SET CPUBW GOVERNOR"
@@ -105,11 +106,11 @@ echo "Cpubw governor setted"
 echo ".............................................................."
 echo "SET STOCK HOTPLUG"
 if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
-    echo "2" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+    echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
     echo "20 20 20 20" > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
     echo "60 60 60 60" > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
-    echo "200" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
+    echo "1600" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
     echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
     echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
     echo "100" > /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms

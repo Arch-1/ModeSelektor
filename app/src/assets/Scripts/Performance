@@ -1,5 +1,5 @@
 #!/system/bin/sh
-#ModeSelektor v2.5.2
+#ModeSelektor v2.5.3
 #Author Davide Di Battista
 #Contributor Stefano 99
 #2017-2018
@@ -93,7 +93,8 @@ echo "Sched boost setted"
 echo ".............................................................."
 echo "SET LPM"
 chmod 666 /sys/module/lpm_levels/parameters/sleep_disabled
-echo "Y" > /sys/module/lpm_levels/parameters/sleep_disabled chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
+echo "Y" > /sys/module/lpm_levels/parameters/sleep_disabled
+chmod 664 /sys/module/lpm_levels/parameters/sleep_disabled
 echo "Lpm setted"
 echo ".............................................................."
 echo "SET CPUBW GOVERNOR"
@@ -110,7 +111,7 @@ if [ -f /sys/devices/system/cpu/cpu4/core_ctl/global_state ]; then
     echo "4" > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
     echo "20 20 20 20" > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
     echo "25 25 25 25" > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
-    echo "800" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
+    echo "1600" > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
     echo "1" > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
     echo "2" > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
     echo "200" > /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms
